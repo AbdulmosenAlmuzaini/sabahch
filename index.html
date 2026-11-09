@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الأحماض والقواعد | تعليم مبرمج بالذكاء الاصطناعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F5F7; --surface:#FFFFFF; --ink:#17222C; --muted:#536677; --line:#D4DDE4; --soft:#E8EEF2;
+  --l1:#C42A3E; --l2:#C9650A; --l3:#23864D; --l4:#4943A6;
+  --ok:#1F7A45; --bad:#C42A3E; --okbg:#E2F2E8; --badbg:#FBE6E9; --aibg:#EEEDFA;
+  --acc:var(--l1);
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10171D; --surface:#18222B; --ink:#E5ECF1; --muted:#9AAEBE; --line:#2B3946; --soft:#202D38;
+    --l1:#F16074; --l2:#F2994A; --l3:#4CC27F; --l4:#9590EE;
+    --ok:#4CC27F; --bad:#F16074; --okbg:#15301F; --badbg:#3A1B21; --aibg:#24223F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10171D; --surface:#18222B; --ink:#E5ECF1; --muted:#9AAEBE; --line:#2B3946; --soft:#202D38;
+  --l1:#F16074; --l2:#F2994A; --l3:#4CC27F; --l4:#9590EE;
+  --ok:#4CC27F; --bad:#F16074; --okbg:#15301F; --badbg:#3A1B21; --aibg:#24223F;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;font-size:17px;line-height:1.85;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3{font-family:"Cairo","IBM Plex Sans Arabic",Tahoma,sans-serif;font-weight:700;line-height:1.45;margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+bdi.f{font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;white-space:nowrap}
+sub,sup{font-size:.6em;line-height:0}
+sup{vertical-align:.75em}
+sub{vertical-align:-.3em}
+sub.st{font-size:.5em;vertical-align:-.45em;margin-inline-start:1px}
+.eq{direction:ltr;text-align:center;font-size:1.08em;padding:.55rem .8rem;margin:.6rem 0;background:var(--soft);border-radius:8px;overflow-x:auto;white-space:nowrap}
+img,svg{max-width:100%}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem}
+.brand{font-family:"Cairo",Tahoma,sans-serif;font-weight:700;font-size:1.15rem;text-decoration:none;white-space:nowrap}
+.mini-strip{flex:1;display:flex;height:10px;border-radius:5px;overflow:hidden;max-width:420px;margin-inline-start:auto}
+.mini-strip i{flex:1}
+.top-count{font-size:.85rem;color:var(--muted);white-space:nowrap}
+
+.wrap{max-width:1180px;margin:0 auto;padding:1.5rem 1rem 3rem}
+
+/* home */
+.hero{padding:2.2rem 0 1.6rem}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:700;letter-spacing:0}
+.hero p.lead{max-width:62ch;color:var(--muted);font-size:1.08rem;margin:.6rem 0 1.4rem}
+.strip-big{display:grid;grid-template-columns:repeat(15,1fr);gap:3px;direction:ltr;max-width:760px}
+.strip-big i{height:44px;border-radius:4px;transition:opacity .5s,transform .5s;position:relative}
+.strip-big i.off{opacity:.18}
+.strip-nums{display:grid;grid-template-columns:repeat(15,1fr);direction:ltr;max-width:760px;font-size:.78rem;color:var(--muted);text-align:center;margin-top:3px}
+.strip-cap{margin-top:.6rem;font-weight:600}
+.name-row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:1.6rem 0 .4rem}
+.name-row input{font:inherit;padding:.5rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:220px}
+.how{max-width:70ch;color:var(--muted);margin:1.6rem 0 2rem;font-size:.98rem}
+.lessons{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.lrow{display:grid;grid-template-columns:4.2rem 1fr auto;gap:1rem;align-items:center;padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.lnum{font-family:"Cairo",Tahoma,sans-serif;font-size:2.6rem;font-weight:700;color:var(--lc);line-height:1;text-align:center}
+.lrow h2{font-size:1.3rem}
+.lmeta{font-size:.9rem;color:var(--muted)}
+.lbar{height:6px;background:var(--soft);border-radius:3px;margin-top:.45rem;max-width:360px;overflow:hidden}
+.lbar b{display:block;height:100%;background:var(--lc);border-radius:3px}
+.frames-peek{font-size:.86rem;color:var(--muted);margin-top:.3rem}
+
+.btn{display:inline-flex;align-items:center;gap:.4rem;border:0;border-radius:8px;padding:.55rem 1.1rem;background:var(--acc);color:#fff;font-weight:600;text-decoration:none}
+.btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.btn.ghost{background:color-mix(in srgb,var(--acc) 14%,var(--surface));color:var(--ink);border:1px solid color-mix(in srgb,var(--acc) 45%,var(--surface))}
+.btn.ghost:hover{background:color-mix(in srgb,var(--acc) 24%,var(--surface))}
+.btn.small{padding:.35rem .8rem;font-size:.92rem}
+.btn.ai{background:var(--l4)}
+.locked{font-size:.9rem;color:var(--muted)}
+
+/* lesson layout */
+.lesson{display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
+.side h2{font-size:1.05rem;color:var(--acc);margin-bottom:.6rem}
+.side ol{list-style:none;margin:0;padding:0;border-inline-start:2px solid var(--line)}
+.side li a,.side li span{display:flex;gap:.55rem;align-items:flex-start;padding:.45rem .7rem;text-decoration:none;font-size:.93rem;line-height:1.5;margin-inline-start:-2px;border-inline-start:2px solid transparent}
+.side li a:hover{background:var(--soft)}
+.side li .dot{flex:none;width:1.45rem;height:1.45rem;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:.72rem;font-weight:700;margin-top:.05rem}
+.side li.done .dot{background:var(--acc);border-color:var(--acc);color:#fff}
+.side li.cur a{border-inline-start-color:var(--acc);font-weight:600;background:var(--soft)}
+.side li.lock span{color:var(--muted);opacity:.6;cursor:not-allowed}
+.side .back{display:inline-block;margin-bottom:1rem;font-size:.9rem;color:var(--muted)}
+.side .endlink{margin-top:.8rem}
+
+.frame{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.6rem clamp(1rem,3vw,2.2rem);min-width:0}
+.crumb{font-size:.88rem;color:var(--acc);font-weight:600;margin:0 0 .2rem}
+.frame h2{font-size:clamp(1.5rem,3.4vw,2rem);margin-bottom:1rem}
+.frame h3{font-size:1.08rem;margin:0 0 .7rem}
+.sci{max-width:72ch}
+.sci p{margin:.5rem 0}
+.sci ul{margin:.4rem 0;padding-inline-start:1.3rem}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.duo>div{border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;border-top:4px solid var(--c)}
+.duo h4{margin:0 0 .3rem;font-size:1rem}
+.duo ul{margin:0;padding-inline-start:1.1rem;font-size:.96rem}
+.note{border-inline-start:4px solid var(--l2);background:var(--soft);padding:.5rem .9rem;border-radius:0 8px 8px 0;font-size:.95rem;margin:.8rem 0}
+.sim{margin:1.6rem 0;padding:1.2rem;border-radius:12px;background:var(--soft)}
+.sim .hint{margin:0 0 .7rem;color:var(--muted);font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0 .8rem}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.3rem .85rem;font-size:.93rem}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.out{min-height:1.6em;margin:.7rem 0 0;font-weight:500}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.6rem}
+.canva{display:flex;align-items:center;justify-content:space-between;gap:1rem;border:1px dashed var(--acc);border-radius:10px;padding:.8rem 1rem;text-decoration:none;margin:1.2rem 0}
+.canva b{color:var(--acc)}
+.canva small{color:var(--muted);display:block;font-size:.85rem}
+
+/* questions */
+.qs{margin-top:1.8rem;border-top:1px solid var(--line);padding-top:1.3rem}
+.q{margin-bottom:1.3rem}
+.q .qt{font-weight:600;margin:0 0 .6rem}
+.opts{display:grid;gap:.45rem}
+.opt{text-align:start;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:.6rem .9rem;line-height:1.6;transition:background .2s,border-color .2s}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad);text-decoration:line-through;text-decoration-color:var(--bad)}
+.opt:disabled{cursor:default}
+.fb{margin-top:.6rem;padding:.65rem .9rem;border-radius:9px;font-size:.96rem}
+.fb.good{background:var(--okbg);border-inline-start:4px solid var(--ok)}
+.fb.bad{background:var(--badbg);border-inline-start:4px solid var(--bad)}
+.qdone{font-size:.93rem;color:var(--muted);margin-bottom:.4rem}
+.qdone b{color:var(--ok)}
+.ai-box{margin-top:.6rem;background:var(--aibg);border-radius:9px;padding:.7rem .95rem;font-size:.96rem;white-space:normal}
+.ai-box .who{font-weight:700;color:var(--l4);font-size:.85rem;display:block;margin-bottom:.15rem}
+.ai-only{display:none!important}
+body.ai-on .ai-only{display:revert!important}
+body.ai-on .ai-off{display:none!important}
+.ai-off{font-size:.88rem;color:var(--muted)}
+
+.tutor{margin-top:1.8rem;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tutor summary{cursor:pointer;padding:.8rem 1rem;font-weight:600;background:var(--aibg);list-style:none}
+.tutor summary::-webkit-details-marker{display:none}
+.tutor .tbody{padding:1rem}
+.chat{display:flex;flex-direction:column;gap:.5rem;max-height:360px;overflow-y:auto;margin-bottom:.7rem}
+.msg{padding:.55rem .85rem;border-radius:10px;max-width:88%;font-size:.95rem}
+.msg.me{background:var(--soft);align-self:flex-start}
+.msg.bot{background:var(--aibg);align-self:flex-end}
+.ask{display:flex;gap:.5rem}
+.ask input{flex:1;font:inherit;padding:.5rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}
+.suggest{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem}
+
+.fnav{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;flex-wrap:wrap;align-items:center}
+.gate{font-size:.9rem;color:var(--muted)}
+
+/* sims */
+.litmus-stage{display:flex;gap:2.5rem;justify-content:center;margin:.6rem 0}
+.paper{text-align:center;font-size:.88rem}
+.strip{width:42px;height:150px;border-radius:4px;margin:0 auto .3rem;position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.strip i{position:absolute;inset:auto 0 0;height:50%;transition:background-color 1.2s ease}
+.beaker{display:block;margin:0 auto;width:180px;height:190px}
+.bub{opacity:0}
+.beaker.on .bub{animation:rise 1.8s infinite ease-in}
+@keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-95px);opacity:0}}
+.bars{display:flex;gap:2rem;justify-content:center;align-items:flex-end;height:180px;margin:.6rem 0;direction:ltr}
+.bar{width:70px;text-align:center;font-size:.85rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.bar b{display:block;border-radius:6px 6px 0 0;transition:height .4s}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.rangelbl{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted)}
+.sp{border:2px dashed var(--line);background:var(--surface);border-radius:8px;padding:.2rem .5rem;font-size:1.05rem;min-width:4.5rem;line-height:1.4}
+.sp small{display:block;font-size:.72rem;color:var(--muted);font-family:"IBM Plex Sans Arabic",sans-serif}
+.sp.okk{border-color:var(--ok);border-style:solid}
+.sp.nok{border-color:var(--bad);border-style:solid}
+.bl-eq{direction:ltr;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;justify-content:center;margin:.5rem 0}
+.steps .eq{animation:fade .4s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.lewis{direction:ltr;display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;margin:.5rem 0}
+.mol{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.6rem 1rem;text-align:center;font-size:1.4rem;min-width:9rem;transition:transform .8s}
+.mol small{display:block;font-size:.78rem;color:var(--muted);direction:rtl}
+.lp{color:var(--l4);font-weight:700;letter-spacing:-2px;margin-inline-end:2px}
+.larrow{font-size:2rem;color:var(--l4);opacity:0;transition:opacity .6s}
+.lewis.go .larrow{opacity:1}
+.lewis.go .mol.n{transform:translateX(-12px)}
+.parts{display:flex;flex-wrap:wrap;gap:.35rem;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.7rem;min-height:120px;align-content:flex-start;direction:ltr}
+.pt{border-radius:999px;padding:.1rem .55rem;font-size:.85rem;border:1px solid var(--line)}
+.pt.h{background:var(--badbg);border-color:var(--bad)}
+.pt.a{background:var(--aibg);border-color:var(--l4)}
+.pt.m{background:var(--soft)}
+.bulbrow{display:flex;gap:1.2rem;align-items:center;margin-top:.7rem}
+.rank-pool,.rank-list{display:flex;flex-wrap:wrap;gap:.45rem;min-height:2.6rem}
+.rank-list{border:1px dashed var(--line);border-radius:10px;padding:.5rem;margin:.5rem 0;background:var(--surface)}
+.rk{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:.3rem .7rem;font-size:.92rem;line-height:1.5;text-align:center}
+.rk small{display:block;color:var(--muted);font-size:.78rem;direction:ltr}
+.rk.okk{border-color:var(--ok);background:var(--okbg)}
+.rk.nok{border-color:var(--bad);background:var(--badbg)}
+.phview{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:center}
+.swatch{width:90px;height:90px;border-radius:12px;transition:background .4s;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:.15rem .9rem;font-size:.96rem}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:600;direction:ltr;text-align:right}
+.calc{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.calc select,.calc input{font:inherit;padding:.4rem .6rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:auto}
+.calc input{width:6.5rem;direction:ltr}
+.tube-wrap{display:flex;gap:1.5rem;align-items:flex-end;flex-wrap:wrap}
+.meter{font-family:"IBM Plex Sans Arabic",sans-serif;background:#1d2a33;color:#9ff0c0;border-radius:10px;padding:.6rem 1rem;font-size:1.6rem;direction:ltr;min-width:7.5rem;text-align:center}
+.meter small{display:block;font-size:.7rem;color:#9fb6c4}
+.tit{display:grid;grid-template-columns:150px 1fr;gap:1.2rem;align-items:start}
+.tit svg.curve{background:var(--surface);border:1px solid var(--line);border-radius:10px;width:100%;height:auto}
+.formgrid{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.formgrid select{font:inherit;padding:.4rem .6rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);direction:ltr}
+
+/* lesson end */
+.stats{width:100%;border-collapse:collapse;font-size:.95rem;margin:.8rem 0}
+.stats th,.stats td{text-align:start;padding:.5rem .4rem;border-bottom:1px solid var(--line)}
+.stats th{color:var(--muted);font-weight:500}
+.tblwrap{overflow-x:auto}
+.pill{display:inline-block;border-radius:999px;padding:0 .55rem;font-size:.82rem;font-weight:600}
+.pill.g{background:var(--okbg);color:var(--ok)}
+.pill.y{background:var(--badbg);color:var(--bad)}
+.panel{border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem;margin-top:1.3rem}
+.panel h3{font-size:1.1rem;margin-bottom:.4rem}
+.gq{border-top:1px solid var(--line);padding-top:.9rem;margin-top:.9rem}
+
+footer{border-top:1px solid var(--line);padding:1.4rem 1rem 2rem;text-align:center;font-size:.9rem;color:var(--muted)}
+footer .credit{font-weight:600;color:var(--ink)}
+footer .tools{display:flex;gap:.6rem;justify-content:center;margin-top:.7rem;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:.85rem}
+.linkbtn.armed{background:var(--badbg);color:var(--bad);border-radius:6px;padding:.2rem .6rem;text-decoration:none;font-weight:600}
+
+@media (max-width:860px){
+  .lesson{grid-template-columns:1fr;gap:1rem}
+  .side{position:static}
+  .side ol{display:flex;overflow-x:auto;border-inline-start:0;border-bottom:2px solid var(--line);gap:.2rem}
+  .side li{flex:none}
+  .side li a,.side li span{border-inline-start:0;border-bottom:2px solid transparent;margin:0 0 -2px;white-space:nowrap}
+  .side li.cur a{border-bottom-color:var(--acc)}
+  .side li .ftitle{display:none}
+  .side li.cur .ftitle{display:inline}
+  .duo{grid-template-columns:1fr}
+  .tit{grid-template-columns:1fr}
+  .lrow{grid-template-columns:3rem 1fr;}
+  .lrow .lact{grid-column:2}
+  .top-count{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="#home">الأحماض والقواعد</a>
+  <div class="mini-strip" id="miniStrip" aria-hidden="true"></div>
+  <span class="top-count" id="topCount"></span>
+</div></header>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <div class="credit">إعداد المعلمة: صباح داخل الأحمدي - الثانوية السادسة والثلاثون بالمدينة المنورة</div>
+  <div>منصة تعليم مبرمج لفصل الأحماض والقواعد، كيمياء 2-2</div>
+  <div class="tools">
+    <button class="linkbtn" id="teacherBtn">فتح جميع الإطارات للمعاينة (للمعلمة)</button>
+    <button class="linkbtn" id="resetBtn">مسح تقدّمي والبدء من جديد</button>
+  </div>
+</footer>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function chemHTML(s){
+  return s.split(' ').map(tok => {
+    if (tok === '->') return '→';
+    if (tok === '<=>') return '⇌';
+    if (tok === '+') return '+';
+    let st = '', open = '', close = '';
+    tok = tok.replace(/\((aq|l|s|g)\)$/, x => { st = x; return ''; });
+    if (tok.startsWith('[')) { open = '['; tok = tok.slice(1); }
+    if (tok.endsWith(']')) { close = ']'; tok = tok.slice(0, -1); }
+    const m = tok.match(/^(\d*)([^\^]*)(?:\^(\d*[+-]))?$/);
+    if (!m) return esc(tok);
+    let body = m[2];
+    if (/^[KMV][abw]$/.test(body)) body = body[0] + '<sub>' + body[1] + '</sub>';
+    else body = body.replace(/([A-Za-z\)\]])(\d+)/g, '$1<sub>$2</sub>');
+    return open + (m[1] || '') + body + (m[3] ? '<sup>' + m[3].replace('-', '−') + '</sup>' : '') + close + (st ? '<sub class="st">' + st + '</sub>' : '');
+  }).join(' ');
+}
+const SUBU = s => s.replace(/(?<=[A-Za-z\)])\d+/g, d => [...d].map(x => '₀₁₂₃₄₅₆₇₈₉'[x]).join(''));
+const c = s => `<bdi class="f">${chemHTML(s)}</bdi>`;
+const eq = s => `<div class="eq" dir="ltr">${chemHTML(s)}</div>`;
+const IND = ['#D7263D','#E4402F','#EC6229','#F28A24','#F5AE1F','#E3CB1E','#B2CF33','#62B94A','#2FA26A','#2A8E8D','#2C70AE','#3A51A6','#4B419C','#5B318D','#6A2A80'];
+const phColor = p => IND[Math.max(0, Math.min(14, Math.round(p)))];
+function sci(x){
+  if (!isFinite(x) || x <= 0) return '—';
+  let e = Math.floor(Math.log10(x)); let m = x / Math.pow(10, e);
+  m = Math.round(m * 100) / 100; if (m >= 10) { m = m / 10; e++; }
+  return `${m.toFixed(m % 1 === 0 ? 1 : 2)} × 10<sup>${e}</sup>`;
+}
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const plain = html => { const d = document.createElement('div'); d.innerHTML = html; return d.textContent.replace(/\s+/g, ' ').trim(); };
+const fmtAI = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n{2,}/g, '<br><br>').replace(/\n/g, '<br>');
+
+/* ---------- state ---------- */
+const KEY = 'acidbase_pi_v1';
+let S = { name: '', done: {}, correct: {}, att: {}, first: {}, unlockAll: false };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+/* ---------- content ---------- */
+const LESSONS = [
+  { id: 1, title: 'مقدمة في الأحماض والقواعد', ord: 'الدرس الأول', color: 'var(--l1)' },
+  { id: 2, title: 'قوة الأحماض والقواعد', ord: 'الدرس الثاني', color: 'var(--l2)' },
+  { id: 3, title: 'أيونات الهيدروجين والرقم الهيدروجيني', ord: 'الدرس الثالث', color: 'var(--l3)' },
+  { id: 4, title: 'التعادل', ord: 'الدرس الرابع', color: 'var(--l4)' }
+];
+
+const FRAMES = [
+/* ===== Lesson 1 ===== */
+{ id:'f1', lesson:1, title:'الخواص الفيزيائية للأحماض والقواعد', sim:'litmus',
+  canva:'https://www.canva.com/design/DAGt3XQdvvA/Y3wDg5pRUqvSatLzu4Vb_Q/view?utm_content=DAGt3XQdvvA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf35d11e6d8',
+  body:`<p>للأحماض مجموعة من الخواص الفيزيائية المشتركة، وللقواعد خواص أخرى تميّزها. تعرّف هذه الخواص يساعدك على تصنيف المواد من حولك.</p>
+  <div class="duo">
+    <div style="--c:var(--l1)"><h4>الأحماض</h4><ul><li>طعمها لاذع (حامض) مثل الليمون والخل.</li><li>محاليلها المائية توصل التيار الكهربائي لأنها إلكتروليتات.</li><li>تحوّل ورقة تبّاع الشمس الزرقاء إلى اللون الأحمر.</li></ul></div>
+    <div style="--c:var(--l4)"><h4>القواعد</h4><ul><li>طعمها مرّ وملمسها زلق كالصابون.</li><li>محاليلها المائية توصل التيار الكهربائي أيضًا.</li><li>تحوّل ورقة تبّاع الشمس الحمراء إلى اللون الأزرق.</li></ul></div>
+  </div>
+  <p class="note">لا تتذوقي ولا تلمسي أي مادة في المختبر. الكواشف مثل ورقة تبّاع الشمس هي الطريقة الآمنة للتمييز بين الأحماض والقواعد.</p>`,
+  qs:[
+    { q:'غمست طالبة ورقة تبّاع الشمس الحمراء في محلول فتحولت إلى اللون الأزرق. هذا المحلول:', o:[
+      ['قاعدي',1,'أحسنتِ. القواعد وحدها تحوّل ورقة تبّاع الشمس الحمراء إلى الزرقاء.'],
+      ['حمضي',0,'الأحماض تفعل العكس: تحوّل الورقة الزرقاء إلى حمراء، ولا تغيّر لون الورقة الحمراء.'],
+      ['متعادل',0,'المحلول المتعادل لا يغيّر لون أيٍّ من الورقتين. تغيّر اللون هنا دليل على أن المحلول ليس متعادلًا.'],
+      ['لا يمكن الحكم عليه',0,'تغيّر لون الورقة الحمراء إلى الأزرق معلومة كافية للحكم. راجعي خاصية القواعد مع ورقة تبّاع الشمس.']]},
+    { q:'أيّ الخواص الآتية مشتركة بين الأحماض والقواعد؟', o:[
+      ['توصيل محاليلها المائية للتيار الكهربائي',1,'صحيح. كلاهما إلكتروليتات تحتوي محاليلها على أيونات حرة الحركة.'],
+      ['الطعم اللاذع',0,'الطعم اللاذع خاصية للأحماض فقط، أما القواعد فطعمها مرّ.'],
+      ['الملمس الزلق',0,'الملمس الزلق يميّز القواعد وحدها.'],
+      ['تحويل ورقة تبّاع الشمس الزرقاء إلى حمراء',0,'هذه خاصية للأحماض وحدها؛ القواعد تؤثر في الورقة الحمراء لا الزرقاء.']]}
+  ]},
+{ id:'f2', lesson:1, title:'الخواص الكيميائية للأحماض والقواعد', sim:'reaction',
+  canva:'https://www.canva.com/design/DAGt3h4EqCA/8sDzwoQaPOggqawhu-9CdA/view?utm_content=DAGt3h4EqCA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd77f7293af',
+  body:`<p>تتفاعل الأحماض مع بعض الفلزات النشطة مثل الماغنسيوم والخارصين، فينتج ملح وغاز الهيدروجين:</p>
+  ${eq('Mg(s) + 2HCl(aq) -> MgCl2(aq) + H2(g)')}
+  <p>وتتفاعل الأحماض مع الكربونات والكربونات الهيدروجينية، فينتج ملح وماء وغاز ثاني أكسيد الكربون. يستعمل الجيولوجيون هذا التفاعل للكشف عن صخور الحجر الجيري:</p>
+  ${eq('CaCO3(s) + 2HCl(aq) -> CaCl2(aq) + H2O(l) + CO2(g)')}
+  <p>يُكشف عن غاز الهيدروجين بصوت فرقعة عند تقريب شظية مشتعلة، ويُكشف عن ${c('CO2')} بتعكيره ماء الجير.</p>`,
+  qs:[
+    { q:'ما الغاز الناتج من تفاعل الخارصين مع حمض الهيدروكلوريك؟', o:[
+      [`الهيدروجين ${c('H2')}`,1,'صحيح. الفلز النشط يحل محل هيدروجين الحمض فيتصاعد غاز الهيدروجين.'],
+      [`ثاني أكسيد الكربون ${c('CO2')}`,0,'هذا الغاز ينتج عند تفاعل الحمض مع الكربونات، والخارصين فلز لا كربونات.'],
+      [`الأكسجين ${c('O2')}`,0,'لا يوجد في التفاعل مصدر للأكسجين. فكّري: الفلز يحل محل أيّ عنصر في الحمض؟'],
+      [`الكلور ${c('Cl2')}`,0,'الكلور يبقى مرتبطًا بالفلز في صورة ملح كلوريد الخارصين.']]},
+    { q:'أضافت طالبة حمضًا إلى عينة صخرية فتصاعد غاز عكّر ماء الجير. العينة تحتوي غالبًا على:', o:[
+      ['كربونات',1,'أحسنتِ. الحمض مع الكربونات يطلق CO2 الذي يعكّر ماء الجير.'],
+      ['فلز نشط',0,'الفلز النشط يطلق غاز الهيدروجين، وهو لا يعكّر ماء الجير بل يفرقع مع الشظية المشتعلة.'],
+      ['نحاس',0,'النحاس لا يتفاعل مع حمض الهيدروكلوريك المخفف أصلًا.'],
+      ['ملح كلوريد الصوديوم',0,'كلوريد الصوديوم لا يطلق غازًا مع الحمض. ابحثي عن مادة تطلق CO2.']]}
+  ]},
+{ id:'f3', lesson:1, title:'أيونات الهيدرونيوم والهيدروكسيد', sim:'ions',
+  canva:'https://www.canva.com/design/DAGt39hlU94/BJ94xnZ99uvOn_M9Ejj6AA/view?utm_content=DAGt39hlU94&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h58aecf6c6d',
+  body:`<p>يحتوي كل محلول مائي على أيونات الهيدرونيوم ${c('H3O^+')} وأيونات الهيدروكسيد ${c('OH^-')}، لأن جزيئات الماء تتأين ذاتيًا بنسبة ضئيلة جدًا:</p>
+  ${eq('H2O(l) + H2O(l) <=> H3O^+(aq) + OH^-(aq)')}
+  <p>الكمية النسبية لهذين الأيونين هي التي تحدد نوع المحلول:</p>
+  <ul><li><b>محلول حمضي:</b> ${c('[H3O^+]')} أكبر من ${c('[OH^-]')}.</li><li><b>محلول متعادل:</b> التركيزان متساويان، كالماء النقي.</li><li><b>محلول قاعدي:</b> ${c('[OH^-]')} أكبر من ${c('[H3O^+]')}.</li></ul>
+  <p>يمكن كتابة أيون الهيدرونيوم اختصارًا ${c('H^+')}، وهو في الحقيقة بروتون مرتبط بجزيء ماء.</p>`,
+  qs:[
+    { q:`محلول تركيز ${c('OH^-')} فيه أكبر من تركيز ${c('H3O^+')}. هذا المحلول:`, o:[
+      ['قاعدي',1,'صحيح. زيادة أيونات الهيدروكسيد على الهيدرونيوم تعني محلولًا قاعديًا.'],
+      ['حمضي',0,'المحلول الحمضي يكون فيه H3O+ هو الأكبر. هنا الأمر معكوس.'],
+      ['متعادل',0,'المتعادل يتساوى فيه التركيزان، وهنا أحدهما أكبر.'],
+      ['لا يحتوي على أيونات H3O+',0,'كل محلول مائي يحتوي على الأيونين معًا بسبب التأين الذاتي للماء، لكن بنسب مختلفة.']]},
+    { q:'ناتج التأين الذاتي للماء هو:', o:[
+      [`${c('H3O^+')} و ${c('OH^-')}`,1,'أحسنتِ. جزيء ماء يمنح بروتونًا لجزيء آخر فيتكون الأيونان.'],
+      [`${c('H2')} و ${c('O2')}`,0,'هذه نواتج التحليل الكهربائي للماء، لا التأين الذاتي.'],
+      [`${c('H3O^+')} فقط`,0,'كل بروتون يفقده جزيء ماء يترك خلفه أيون هيدروكسيد، فلا بد من تكوّن الأيونين معًا.'],
+      [`${c('OH^-')} فقط`,0,'تذكّري أن الجزيء الذي يستقبل البروتون يصبح H3O+.']]}
+  ]},
+{ id:'f4', lesson:1, title:'نظرية أرهينيوس', sim:'arrhenius',
+  canva:'https://www.canva.com/design/DAGt310hSFg/c6hqhLtrhH-XhPbPPE9Tug/view?utm_content=DAGt310hSFg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hdf7b39e87d',
+  body:`<p>اقترح العالم السويدي سفانت أرهينيوس أول نموذج لتفسير سلوك الأحماض والقواعد:</p>
+  <ul><li><b>حمض أرهينيوس:</b> مادة تحتوي على الهيدروجين وتتأين في الماء منتجة أيونات الهيدروجين ${c('H^+')}.</li><li><b>قاعدة أرهينيوس:</b> مادة تحتوي على مجموعة الهيدروكسيد وتتفكك في الماء منتجة أيونات ${c('OH^-')}.</li></ul>
+  ${eq('HCl(g) -> H^+(aq) + Cl^-(aq)')}
+  ${eq('NaOH(s) -> Na^+(aq) + OH^-(aq)')}
+  <p class="note">قصور النظرية: بعض المواد قاعدية رغم أنها لا تحتوي على مجموعة ${c('OH')}، مثل الأمونيا ${c('NH3')} وكربونات الصوديوم ${c('Na2CO3')}. هذا ما دفع العلماء إلى نماذج أشمل.</p>`,
+  qs:[
+    { q:'أيّ المواد الآتية قاعدة وفق نظرية أرهينيوس؟', o:[
+      [c('KOH'),1,'صحيح. تحتوي على OH وتتفكك في الماء منتجة أيونات الهيدروكسيد.'],
+      [c('HNO3'),0,'هذا حمض أرهينيوس لأنه يتأين منتجًا أيونات H+.'],
+      [c('NH3'),0,'الأمونيا قاعدة فعلًا، لكنها لا تحتوي على OH، لذلك لا تفسّرها نظرية أرهينيوس. هذا هو قصور النظرية.'],
+      [c('CH4'),0,'الميثان لا يتأين في الماء ولا يحتوي على OH.']]},
+    { q:'من أوجه قصور نظرية أرهينيوس أنها:', o:[
+      [`لا تفسّر قاعدية ${c('NH3')}`,1,'أحسنتِ. الأمونيا تكوّن محلولًا قاعديًا دون أن تحتوي على مجموعة OH.'],
+      [`لا تفسّر حمضية ${c('HCl')}`,0,'حمضية HCl تفسّرها النظرية تمامًا: يتأين منتجًا H+.'],
+      ['لا تفسّر توصيل المحاليل للكهرباء',0,'النظرية تعتمد على تكوّن الأيونات، وهذا يفسّر التوصيل.'],
+      [`لا تفسّر قاعدية ${c('NaOH')}`,0,'NaOH مثال نموذجي لقاعدة أرهينيوس.']]}
+  ]},
+{ id:'f5', lesson:1, title:'نظرية برونستد-لوري', sim:'bronsted',
+  canva:'https://www.canva.com/design/DAGwiaDO41k/7F3-8yigX084z3x5KqWZ9A/view?utm_content=DAGwiaDO41k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha8c6ffc780',
+  body:`<p>وسّع العالمان برونستد ولوري مفهوم الحمض والقاعدة بالاعتماد على انتقال البروتون ${c('H^+')}:</p>
+  <ul><li><b>الحمض:</b> مادة مانحة لأيون الهيدروجين (البروتون).</li><li><b>القاعدة:</b> مادة مستقبلة لأيون الهيدروجين.</li></ul>
+  <p>عندما يمنح الحمض بروتونًا يتحول إلى <b>قاعدة مرافقة</b>، وعندما تستقبل القاعدة بروتونًا تتحول إلى <b>حمض مرافق</b>. يختلف كل زوج مترافق ببروتون واحد فقط.</p>
+  ${eq('NH3(aq) + H2O(l) <=> NH4^+(aq) + OH^-(aq)')}
+  <p>هنا ${c('NH3')} قاعدة و ${c('NH4^+')} حمضها المرافق، والماء حمض و ${c('OH^-')} قاعدته المرافقة. يسلك الماء سلوك الحمض أحيانًا وسلوك القاعدة أحيانًا أخرى، لذلك يوصف بأنه <b>متردد (أمفوتيري)</b>.</p>`,
+  qs:[
+    { q:`الحمض المرافق للقاعدة ${c('NH3')} هو:`, o:[
+      [c('NH4^+'),1,'صحيح. الحمض المرافق = القاعدة + بروتون واحد.'],
+      [c('NH2^-'),0,'هذه هي القاعدة المرافقة لـ NH3 إن سلكت سلوك الحمض (فقدت بروتونًا). المطلوب الحمض المرافق: أضيفي بروتونًا.'],
+      [c('H3O^+'),0,'H3O+ هو الحمض المرافق للماء لا للأمونيا.'],
+      [c('OH^-'),0,'OH- قاعدة مرافقة للماء. الزوج المترافق يختلف ببروتون واحد فقط.']]},
+    { q:`القاعدة المرافقة للحمض ${c('H2SO4')} هي:`, o:[
+      [c('HSO4^-'),1,'أحسنتِ. فقد الحمض بروتونًا واحدًا فأصبح قاعدته المرافقة.'],
+      [c('SO4^2-'),0,'هذا ناتج فقد بروتونين. الزوج المترافق يختلف ببروتون واحد فقط.'],
+      [c('H3SO4^+'),0,'هذا ناتج إضافة بروتون، أي الحمض المرافق لو سلك H2SO4 سلوك القاعدة.'],
+      [c('H2O'),0,'الماء ليس من الزوج المترافق للحمض H2SO4.']]},
+    { q:'المادة التي يمكن أن تسلك سلوك الحمض وسلوك القاعدة تسمى:', o:[
+      ['مترددة (أمفوتيرية)',1,'صحيح. والماء أشهر مثال عليها.'],
+      ['إلكتروليتًا',0,'الإلكتروليت مادة توصل محاليلها الكهرباء، وهذا وصف مختلف.'],
+      ['حمض لويس',0,'حمض لويس مستقبل لزوج إلكترونات، وليس وصفًا للمادة التي تسلك السلوكين.'],
+      ['قاعدة مرافقة',0,'القاعدة المرافقة هي ما يبقى بعد أن يمنح الحمض بروتونه.']]}
+  ]},
+{ id:'f6', lesson:1, title:'الأحماض أحادية البروتون ومتعددة البروتونات', sim:'polyprotic',
+  canva:'https://www.canva.com/design/DAGt4L6aLPE/bqH83RTF0A_mqM5IqsZ9Tg/view?utm_content=DAGt4L6aLPE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc3cbb0181e',
+  body:`<p><b>الحمض أحادي البروتون</b> يستطيع منح أيون هيدروجين واحد فقط، مثل ${c('HCl')} و ${c('HF')}.</p>
+  <p>ليست كل ذرات الهيدروجين في الجزيء قابلة للتأين. في حمض الإيثانويك ${c('CH3COOH')} أربع ذرات هيدروجين، لكن ذرة واحدة فقط قابلة للتأين، وهي المرتبطة بذرة الأكسجين ذات السالبية الكهربائية العالية. أما الذرات الثلاث المرتبطة بالكربون فلا تتأين.</p>
+  <p><b>الأحماض متعددة البروتونات</b> تمنح أكثر من أيون هيدروجين: ثنائية البروتون مثل ${c('H2SO4')} و ${c('H2CO3')}، وثلاثية البروتون مثل ${c('H3PO4')}. وتتأين على خطوات، كل خطوة تمنح بروتونًا واحدًا.</p>`,
+  qs:[
+    { q:`كم عدد ذرات الهيدروجين القابلة للتأين في ${c('CH3COOH')}؟`, o:[
+      ['1',1,'صحيح. فقط الهيدروجين المرتبط بالأكسجين قابل للتأين.'],
+      ['4',0,'في الجزيء أربع ذرات هيدروجين فعلًا، لكن الثلاث المرتبطة بالكربون لا تتأين. انظري إلى الذرة التي يرتبط بها كل هيدروجين.'],
+      ['3',0,'الذرات الثلاث في مجموعة CH3 مرتبطة بالكربون، وهي بالتحديد التي لا تتأين.'],
+      ['2',0,'راجعي تركيب الجزيء: مجموعة COOH فيها هيدروجين واحد فقط.']]},
+    { q:`يُصنَّف حمض الفوسفوريك ${c('H3PO4')} بأنه حمض:`, o:[
+      ['ثلاثي البروتون',1,'أحسنتِ. يتأين على ثلاث خطوات، تمنح كل خطوة بروتونًا واحدًا.'],
+      ['أحادي البروتون',0,'يحتوي الجزيء على ثلاث ذرات هيدروجين قابلة للتأين، جرّبي النشاط التفاعلي لتري خطواته.'],
+      ['ثنائي البروتون',0,'H2SO4 مثال للثنائي. أما H3PO4 فعدد ذرات الهيدروجين القابلة للتأين فيه أكبر.'],
+      ['قاعدة',0,'H3PO4 يمنح البروتونات، فهو حمض.']]}
+  ]},
+{ id:'f7', lesson:1, title:'نظرية لويس', sim:'lewis',
+  canva:'https://www.canva.com/design/DAGt56G_NgE/Np_knHPpa22UhHgGfSERpg/view?utm_content=DAGt56G_NgE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9c2b8e5b2e',
+  body:`<p>اقترح لويس النموذج الأشمل، فربط السلوك الحمضي والقاعدي بأزواج الإلكترونات بدلًا من البروتونات:</p>
+  <ul><li><b>حمض لويس:</b> أيون أو جزيء مستقبل لزوج من الإلكترونات.</li><li><b>قاعدة لويس:</b> أيون أو جزيء مانح لزوج من الإلكترونات.</li></ul>
+  <p>في تفاعل ثلاثي فلوريد البورون مع الأمونيا، تمنح ذرة النيتروجين زوجها الحر لذرة البورون التي ينقصها زوج من الإلكترونات، فتتكوّن رابطة تساهمية تناسقية:</p>
+  ${eq('BF3 + NH3 -> F3B–NH3')}
+  <p>كل حمض في نظرية برونستد-لوري هو حمض لويس أيضًا، لكن العكس غير صحيح؛ فـ ${c('BF3')} حمض لويس رغم أنه لا يحتوي على هيدروجين.</p>`,
+  qs:[
+    { q:`في التفاعل ${c('BF3 + NH3 -> F3B–NH3')}، حمض لويس هو:`, o:[
+      [c('BF3'),1,'صحيح. البورون يستقبل زوج الإلكترونات من النيتروجين.'],
+      [c('NH3'),0,'النيتروجين يملك زوجًا حرًا ويمنحه، والمانح هو قاعدة لويس.'],
+      [c('F3B–NH3'),0,'هذا ناتج التفاعل، وليس حمضًا ولا قاعدة فيه.'],
+      ['لا يوجد حمض لعدم وجود هيدروجين يُمنح',0,'هذا تفكير برونستد-لوري. نظرية لويس تعتمد على أزواج الإلكترونات لا البروتونات.']]},
+    { q:'قاعدة لويس هي مادة:', o:[
+      ['مانحة لزوج من الإلكترونات',1,'أحسنتِ.'],
+      ['مستقبلة لزوج من الإلكترونات',0,'هذا تعريف حمض لويس. القاعدة هي الطرف الذي يملك الزوج الحر ويمنحه.'],
+      ['مانحة للبروتون',0,'هذا تعريف حمض برونستد-لوري.'],
+      ['منتجة لأيونات الهيدروكسيد في الماء',0,'هذا تعريف قاعدة أرهينيوس.']]}
+  ]},
+/* ===== Lesson 2 ===== */
+{ id:'f8', lesson:2, title:'قوة الأحماض', sim:'strength',
+  canva:'https://sabaah.my.canva.site/dagt-rgkz64',
+  body:`<p><b>الحمض القوي</b> يتأين كليًا في محلوله المائي، أي تتحول جزيئاته كلها تقريبًا إلى أيونات. من أمثلته: ${c('HCl')} و ${c('HBr')} و ${c('HI')} و ${c('HNO3')} و ${c('HClO4')} و ${c('H2SO4')} (في خطوته الأولى).</p>
+  <p><b>الحمض الضعيف</b> يتأين جزئيًا، فتبقى معظم جزيئاته دون تأين. من أمثلته: ${c('CH3COOH')} و ${c('HF')} و ${c('H2CO3')} و ${c('HCN')}.</p>
+  <p>عند التركيز نفسه، يحتوي محلول الحمض القوي على أيونات أكثر بكثير، لذلك يوصل التيار الكهربائي بدرجة أكبر ويضيء المصباح في جهاز اختبار التوصيل بشكل أشد.</p>
+  <p class="note">لا تخلطي بين القوة والتركيز: القوة تعني نسبة التأين، والتركيز يعني كمية الحمض المذابة.</p>`,
+  qs:[
+    { q:'أيّ الأحماض الآتية حمض ضعيف؟', o:[
+      [c('HF'),1,'صحيح. رغم أنه من الهالوجينات، فإن HF يتأين جزئيًا فقط.'],
+      [c('HCl'),0,'HCl يتأين كليًا، فهو قوي.'],
+      [c('HNO3'),0,'حمض النيتريك من الأحماض القوية الشائعة.'],
+      [c('HI'),0,'HI حمض قوي، بل أقوى من HCl.']]},
+    { q:'محلولان تركيز كل منهما 0.1 M. أيّهما يضيء المصباح بشدة أكبر؟', o:[
+      [c('HCl'),1,'أحسنتِ. تأينه الكلي يعطي أيونات أكثر فيزداد التوصيل.'],
+      [c('CH3COOH'),0,'حمض الإيثانويك ضعيف، تبقى معظم جزيئاته دون تأين، فتقل الأيونات.'],
+      ['يضيئان بالشدة نفسها لتساوي التركيز',0,'تساوي التركيز لا يعني تساوي عدد الأيونات. نسبة التأين هي الفيصل.'],
+      ['لا يضيء أيّ منهما',0,'كلاهما يحتوي على أيونات، لكن بكميات مختلفة.']]}
+  ]},
+{ id:'f9', lesson:2, title:'تأين الحمض وقاعدة برونستد المرافقة', sim:'equil',
+  canva:'https://www.canva.com/design/DAGwiaDO41k/7F3-8yigX084z3x5KqWZ9A/view?utm_content=DAGwiaDO41k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha8c6ffc780',
+  body:`<p>يمكن تفسير قوة الحمض بنموذج برونستد-لوري. عند ذوبان الحمض ${c('HX')} في الماء:</p>
+  ${eq('HX(aq) + H2O(l) <=> H3O^+(aq) + X^-(aq)')}
+  <p>في الحمض القوي يزاح الاتزان كليًا تقريبًا نحو النواتج، لأن القاعدة المرافقة ${c('X^-')} ضعيفة جدًا ولا تميل إلى استعادة البروتون.</p>
+  <p>في الحمض الضعيف يقع الاتزان جهة المتفاعلات، لأن القاعدة المرافقة أقوى نسبيًا وتستعيد البروتون بسهولة.</p>
+  <p><b>القاعدة العامة:</b> كلما زادت قوة الحمض، ضعفت قاعدته المرافقة، والعكس صحيح.</p>`,
+  qs:[
+    { q:'كلما زادت قوة الحمض فإن قاعدته المرافقة:', o:[
+      ['تكون أضعف',1,'صحيح. الحمض القوي يمنح بروتونه بسهولة لأن قاعدته المرافقة لا تجذبه بقوة.'],
+      ['تكون أقوى',0,'لو كانت القاعدة المرافقة قوية لاستعادت البروتون، فيقل التأين ويضعف الحمض.'],
+      ['لا تتأثر',0,'قوة الحمض وقوة قاعدته المرافقة مرتبطتان بعلاقة عكسية.'],
+      ['تتحول إلى حمض قوي',0,'القاعدة المرافقة تبقى قاعدة؛ السؤال عن قوتها.']]},
+    { q:`في محلول مائي من ${c('CH3COOH')}، معظم الجسيمات الموجودة هي:`, o:[
+      [`جزيئات ${c('CH3COOH')} غير متأينة`,1,'أحسنتِ. الاتزان يقع جهة المتفاعلات في الحمض الضعيف.'],
+      [`أيونات ${c('H3O^+')} و ${c('CH3COO^-')}`,0,'هذا يصف حمضًا قويًا. حمض الإيثانويك يتأين جزئيًا فقط.'],
+      [`أيونات ${c('OH^-')}`,0,'المحلول حمضي، فأيونات OH- قليلة جدًا.'],
+      [`جزيئات ${c('H2')}`,0,'لا يتكون غاز الهيدروجين عند ذوبان الحمض في الماء.']]}
+  ]},
+{ id:'f10', lesson:2, title:'ثابت تأين الحمض', sim:'rankKa',
+  canva:'https://sabaah.my.canva.site/dagt-29-my',
+  body:`<p>بما أن الحمض الضعيف يصل إلى حالة اتزان، يمكن كتابة ثابت الاتزان له، ويسمى <b>ثابت تأين الحمض</b> ${c('Ka')}:</p>
+  ${eq('HA(aq) + H2O(l) <=> H3O^+(aq) + A^-(aq)')}
+  <div class="eq" dir="ltr">K<sub>a</sub> = [H<sub>3</sub>O<sup>+</sup>][A<sup>−</sup>] / [HA]</div>
+  <p>لا يظهر الماء في التعبير لأنه سائل نقي تركيزه ثابت.</p>
+  <p>كلما كانت قيمة ${c('Ka')} أكبر، كان تأين الحمض أكبر وكان الحمض أقوى. مثال: ${c('Ka')} لـ ${c('HF')} يساوي ${'<bdi class="f">6.3 × 10<sup>−4</sup></bdi>'} وهو أقوى من ${c('CH3COOH')} الذي ${c('Ka')} له ${'<bdi class="f">1.8 × 10<sup>−5</sup></bdi>'}.</p>`,
+  qs:[
+    { q:'أيّ الأحماض الآتية هو الأقوى؟', o:[
+      [`${c('HF')} (Ka = 6.3 × 10<sup>−4</sup>)`,1,'صحيح. أكبر قيمة Ka تعني أكبر تأين.'],
+      [`${c('CH3COOH')} (Ka = 1.8 × 10<sup>−5</sup>)`,0,'قارني الأسس: 10 أس −5 أصغر من 10 أس −4.'],
+      [`${c('H2CO3')} (Ka = 4.5 × 10<sup>−7</sup>)`,0,'هذه القيمة أصغر بكثير من 10 أس −4.'],
+      [`${c('HCN')} (Ka = 6.2 × 10<sup>−10</sup>)`,0,'هذا أضعفها. تذكّري: كلما كبر الأس السالب صغرت القيمة.']]},
+    { q:`تعبير ثابت التأين للحمض ${c('HCN')} هو:`, o:[
+      ['<bdi class="f">[H<sub>3</sub>O<sup>+</sup>][CN<sup>−</sup>] / [HCN]</bdi>',1,'أحسنتِ. النواتج في البسط والحمض في المقام، دون الماء.'],
+      ['<bdi class="f">[H<sub>3</sub>O<sup>+</sup>][CN<sup>−</sup>] / [HCN][H<sub>2</sub>O]</bdi>',0,'الماء سائل نقي تركيزه ثابت، فلا يُكتب في تعبير ثابت الاتزان.'],
+      ['<bdi class="f">[HCN] / [H<sub>3</sub>O<sup>+</sup>][CN<sup>−</sup>]</bdi>',0,'هذا مقلوب التعبير. النواتج تكون في البسط.'],
+      ['<bdi class="f">[H<sub>3</sub>O<sup>+</sup>] + [CN<sup>−</sup>]</bdi>',0,'ثابت الاتزان حاصل ضرب تراكيز النواتج مقسومًا على المتفاعلات، لا مجموعها.']]}
+  ]},
+{ id:'f11', lesson:2, title:'قوة القواعد', sim:'rankKb',
+  canva:'https://sabaah.my.canva.site/dagt-yowodc',
+  body:`<p><b>القاعدة القوية</b> تتفكك كليًا في الماء، مثل هيدروكسيدات فلزات المجموعتين الأولى والثانية: ${c('NaOH')} و ${c('KOH')} و ${c('Ca(OH)2')} و ${c('Ba(OH)2')}.</p>
+  <p><b>القاعدة الضعيفة</b> تتأين جزئيًا، إذ تستقبل بروتونًا من الماء فتنتج أيونات ${c('OH^-')}:</p>
+  ${eq('NH3(aq) + H2O(l) <=> NH4^+(aq) + OH^-(aq)')}
+  <div class="eq" dir="ltr">K<sub>b</sub> = [NH<sub>4</sub><sup>+</sup>][OH<sup>−</sup>] / [NH<sub>3</sub>]</div>
+  <p>يسمى ${c('Kb')} <b>ثابت تأين القاعدة</b>، وكلما زادت قيمته كانت القاعدة أقوى.</p>`,
+  qs:[
+    { q:'أيّ المواد الآتية قاعدة قوية؟', o:[
+      [c('Ba(OH)2'),1,'صحيح. هيدروكسيد فلز من المجموعة الثانية يتفكك كليًا.'],
+      [c('NH3'),0,'الأمونيا قاعدة ضعيفة تتأين جزئيًا.'],
+      [c('CH3COOH'),0,'هذا حمض ضعيف، لا قاعدة.'],
+      ['الأنيلين',0,'الأنيلين قاعدة ضعيفة جدًا، قيمة Kb له صغيرة.']]},
+    { q:'أيّ القواعد الضعيفة الآتية هي الأضعف؟', o:[
+      [`الأنيلين (Kb = 4.3 × 10<sup>−10</sup>)`,1,'أحسنتِ. أصغر قيمة Kb تعني أقل تأين.'],
+      [`الأمونيا (Kb = 2.5 × 10<sup>−5</sup>)`,0,'قارني الأسس: −5 أكبر بكثير من −10.'],
+      [`ميثيل أمين (Kb = 4.3 × 10<sup>−4</sup>)`,0,'هذه أكبر القيم تقريبًا، أي من الأقوى بين القواعد الضعيفة.'],
+      [`إيثيل أمين (Kb = 5.0 × 10<sup>−4</sup>)`,0,'هذه أكبر قيمة، فهي الأقوى بين هذه القواعد.']]}
+  ]},
+/* ===== Lesson 3 ===== */
+{ id:'f12', lesson:3, title:'أيونات الهيدروجين والرقم الهيدروجيني', sim:'phslider',
+  canva:'https://sabaah.my.canva.site/daguaaqeuum',
+  body:`<p>حاصل ضرب تركيزي أيونات الهيدروجين والهيدروكسيد في أيّ محلول مائي ثابت عند درجة حرارة معينة، ويسمى <b>ثابت تأين الماء</b>:</p>
+  <div class="eq" dir="ltr">K<sub>w</sub> = [H<sup>+</sup>][OH<sup>−</sup>] = 1.0 × 10<sup>−14</sup> &nbsp;(298 K)</div>
+  <p>لأن هذه التراكيز صغيرة جدًا، نستخدم <b>الرقم الهيدروجيني</b> ${c('pH')}:</p>
+  <div class="eq" dir="ltr">pH = −log[H<sup>+</sup>]</div>
+  <p>يتدرج مقياس pH من 0 إلى 14: أقل من 7 حمضي، و 7 متعادل، وأكبر من 7 قاعدي. وكل نقصان بمقدار وحدة واحدة في pH يعني زيادة ${c('[H^+]')} عشرة أضعاف.</p>`,
+  qs:[
+    { q:`محلول فيه ${'<bdi class="f">[H<sup>+</sup>] = 1.0 × 10<sup>−3</sup> M</bdi>'}. قيمة pH له:`, o:[
+      ['3',1,'صحيح. pH = −log(10 أس −3) = 3.'],
+      ['−3',0,'لا تنسي الإشارة السالبة في القانون: −log تجعل الناتج موجبًا.'],
+      ['11',0,'11 هي قيمة pOH لهذا المحلول، لا pH.'],
+      ['0.001',0,'هذا هو التركيز نفسه. المطلوب تطبيق −log عليه.']]},
+    { q:`إذا كان ${'<bdi class="f">[H<sup>+</sup>] = 1.0 × 10<sup>−4</sup> M</bdi>'} فإن ${c('[OH^-]')} يساوي:`, o:[
+      ['<bdi class="f">1.0 × 10<sup>−10</sup> M</bdi>',1,'أحسنتِ. ‎[OH−] = Kw ÷ [H+] = 10 أس −14 ÷ 10 أس −4.'],
+      ['<bdi class="f">1.0 × 10<sup>−4</sup> M</bdi>',0,'التركيزان متساويان فقط في المحلول المتعادل. استخدمي Kw.'],
+      ['<bdi class="f">1.0 × 10<sup>−18</sup> M</bdi>',0,'يبدو أنك ضربتِ بدلًا من القسمة. ‎[OH−] = Kw ÷ [H+].'],
+      ['<bdi class="f">1.0 × 10<sup>10</sup> M</bdi>',0,'انتبهي لإشارة الأس عند القسمة: −14 − (−4) = −10.']]}
+  ]},
+{ id:'f13', lesson:3, title:'الرقم الهيدروجيني والرقم الهيدروكسيدي', sim:'calc',
+  canva:'https://www.canva.com/design/DAGuAExmPDQ/nPkBjvkBWX4s7EJ6Tz0I6g/view?utm_content=DAGuAExmPDQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h255fa57ec2',
+  body:`<p>بالطريقة نفسها نعرّف <b>الرقم الهيدروكسيدي</b> ${c('pOH')}:</p>
+  <div class="eq" dir="ltr">pOH = −log[OH<sup>−</sup>]</div>
+  <p>ومن ثابت تأين الماء نصل إلى علاقة مهمة جدًا:</p>
+  <div class="eq" dir="ltr">pH + pOH = 14.00</div>
+  <p>ولحساب التركيز من pH نستخدم العلاقة العكسية:</p>
+  <div class="eq" dir="ltr">[H<sup>+</sup>] = 10<sup>−pH</sup> &nbsp;&nbsp; [OH<sup>−</sup>] = 10<sup>−pOH</sup></div>`,
+  qs:[
+    { q:'محلول قيمة pOH له تساوي 4. قيمة pH ونوع المحلول:', o:[
+      ['pH = 10، قاعدي',1,'صحيح. pH = 14 − 4 = 10، وهي أكبر من 7.'],
+      ['pH = 4، حمضي',0,'4 هي قيمة pOH. استخدمي العلاقة pH + pOH = 14.'],
+      ['pH = 10، حمضي',0,'الحساب صحيح، لكن pH أكبر من 7 يعني محلولًا قاعديًا.'],
+      ['pH = 18، قاعدي',0,'العلاقة طرح من 14 لا جمع: pH = 14 − pOH.']]},
+    { q:'محلول قيمة pH له تساوي 2.0. تركيز أيونات الهيدروجين فيه:', o:[
+      ['<bdi class="f">1.0 × 10<sup>−2</sup> M</bdi>',1,'أحسنتِ. ‎[H+] = 10 أس −pH.'],
+      ['<bdi class="f">2.0 M</bdi>',0,'pH ليس هو التركيز، بل سالب لوغاريتمه.'],
+      ['<bdi class="f">1.0 × 10<sup>−12</sup> M</bdi>',0,'هذا هو تركيز OH−، لأن pOH = 12.'],
+      ['<bdi class="f">1.0 × 10<sup>2</sup> M</bdi>',0,'انتبهي للإشارة: الأس يكون −pH.']]}
+  ]},
+{ id:'f14', lesson:3, title:'قياس الرقم الهيدروجيني', sim:'measure',
+  canva:'https://www.canva.com/design/DAGuAXP15-8/SREquSRBgnxIGh0XmQ6p_Q/view?utm_content=DAGuAXP15-8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h43572e4318',
+  body:`<p>يُقاس الرقم الهيدروجيني بطريقتين رئيستين:</p>
+  <ul><li><b>الكواشف وورق pH:</b> مثل الكاشف العام الذي يتخذ لونًا مختلفًا عند كل قيمة pH، فنقارن اللون بمفتاح الألوان. طريقة سريعة لكنها تقريبية.</li>
+  <li><b>جهاز قياس pH:</b> يحتوي على قطب يُغمس في المحلول، ويعطي قراءة رقمية دقيقة، لذلك يُفضَّل في المختبرات.</li></ul>
+  <p>من أمثلة المواد اليومية: عصير الليمون حمضي (pH قريب من 2)، والدم قاعدي قليلًا (pH يقارب 7.4)، ومنظفات الأفران قاعدية قوية (pH يقارب 13).</p>`,
+  qs:[
+    { q:'أدق طريقة لقياس الرقم الهيدروجيني لمحلول هي:', o:[
+      ['جهاز قياس pH',1,'صحيح. يعطي قراءة رقمية دقيقة بدلًا من مطابقة الألوان.'],
+      ['ورقة تبّاع الشمس',0,'تبّاع الشمس يحدد هل المحلول حمضي أم قاعدي فقط، لا قيمة pH.'],
+      ['الكاشف العام',0,'الكاشف العام يعطي قيمة تقريبية بمطابقة الألوان.'],
+      ['التذوق',0,'التذوق خطير وممنوع في المختبر.']]},
+    { q:'منظف أفران قيمة pH له تساوي 13. يوصف بأنه:', o:[
+      ['قاعدي قوي',1,'أحسنتِ. القيمة قريبة من نهاية المقياس القاعدية.'],
+      ['حمضي قوي',0,'القيم القريبة من 0 هي الحمضية القوية. 13 في الطرف الآخر.'],
+      ['متعادل',0,'المتعادل قيمته 7.'],
+      ['قاعدي ضعيف',0,'القاعدي الضعيف قريب من 7 مثل 8. أما 13 فبعيدة جدًا عن التعادل.']]}
+  ]},
+/* ===== Lesson 4 ===== */
+{ id:'f15', lesson:4, title:'التعادل', sim:'neutral',
+  canva:'https://www.canva.com/design/DAGuAUAhAt8/Vv4c-uTf6TF4c9B-YYV68w/view?utm_content=DAGuAUAhAt8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc4ad617b2d',
+  body:`<p><b>تفاعل التعادل</b> تفاعل يتم فيه تفاعل حمض مع قاعدة فينتج ملح وماء:</p>
+  ${eq('HCl(aq) + NaOH(aq) -> NaCl(aq) + H2O(l)')}
+  <p><b>الملح</b> مركب أيوني يتكون من أيون موجب مصدره القاعدة وأيون سالب مصدره الحمض.</p>
+  <p>إذا حذفنا الأيونات المتفرجة من المعادلة الأيونية الكاملة نحصل على المعادلة الأيونية النهائية لتعادل حمض قوي مع قاعدة قوية:</p>
+  ${eq('H^+(aq) + OH^-(aq) -> H2O(l)')}`,
+  qs:[
+    { q:`الملح الناتج من تعادل ${c('HNO3')} مع ${c('KOH')} هو:`, o:[
+      [c('KNO3'),1,'صحيح. الأيون الموجب K+ من القاعدة والسالب NO3− من الحمض.'],
+      [c('KOH'),0,'هذه هي القاعدة المتفاعلة نفسها.'],
+      [c('HNO2'),0,'هذا حمض آخر لا ملح. الملح يجمع أيون القاعدة الموجب مع أيون الحمض السالب.'],
+      [c('KH'),0,'الهيدروجين يذهب مع OH ليكوّن الماء، فلا يرتبط بالبوتاسيوم.']]},
+    { q:'المعادلة الأيونية النهائية لتعادل حمض قوي مع قاعدة قوية هي:', o:[
+      [c('H^+ + OH^- -> H2O'),1,'أحسنتِ. الأيونات الأخرى متفرجة لا تشارك في التفاعل.'],
+      [c('Na^+ + Cl^- -> NaCl'),0,'هذه الأيونات متفرجة، تبقى ذائبة في المحلول.'],
+      [c('HCl + NaOH -> NaCl + H2O'),0,'هذه المعادلة الجزيئية الكاملة، لا الأيونية النهائية.'],
+      [c('H2O -> H^+ + OH^-'),0,'هذا عكس التعادل، وهو تأين الماء.']]}
+  ]},
+{ id:'f16', lesson:4, title:'المعايرة', sim:'titration',
+  canva:'https://www.canva.com/design/DAGuAnDmp5s/QrFpLcEB3qjbTqET9Ja03g/view?utm_content=DAGuAnDmp5s&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=had6529c9d1',
+  body:`<p><b>المعايرة</b> طريقة لتحديد تركيز محلول بتفاعله مع حجم معلوم من محلول تركيزه معروف يسمى <b>المحلول القياسي</b>.</p>
+  <ul><li><b>نقطة التكافؤ:</b> النقطة التي تتساوى عندها مولات H<sup>+</sup> من الحمض مع مولات OH<sup>−</sup> من القاعدة.</li>
+  <li><b>نقطة النهاية:</b> النقطة التي يتغير عندها لون الكاشف، ويُختار الكاشف بحيث تكون قريبة من نقطة التكافؤ.</li></ul>
+  <p>في معايرة حمض قوي مع قاعدة قوية يكون pH عند نقطة التكافؤ 7، ويتغير pH تغيرًا حادًا قربها. الفينولفثالين عديم اللون في الوسط الحمضي ويصبح ورديًا عند pH يقارب 8.2 فأعلى.</p>
+  <p>للتفاعلات بنسبة 1:1 نستخدم العلاقة:</p>
+  <div class="eq" dir="ltr">M<sub>a</sub> V<sub>a</sub> = M<sub>b</sub> V<sub>b</sub></div>`,
+  qs:[
+    { q:`لزم 20.0 mL من ${c('NaOH')} تركيزه 0.150 M لمعايرة 25.0 mL من ${c('HCl')}. تركيز الحمض:`, o:[
+      ['0.120 M',1,'صحيح. Ma = (0.150 × 20.0) ÷ 25.0 = 0.120 M.'],
+      ['0.188 M',0,'يبدو أنك قلبتِ الحجمين. Ma = Mb × Vb ÷ Va، وVb = 20.0 و Va = 25.0.'],
+      ['0.150 M',0,'التركيزان يتساويان فقط إذا تساوى الحجمان، وهنا الحجمان مختلفان.'],
+      ['3.00 M',0,'3.00 هو عدد المليمولات (0.150 × 20.0). اقسميه على حجم الحمض.']]},
+    { q:'النقطة التي يتغير عندها لون الكاشف أثناء المعايرة تسمى:', o:[
+      ['نقطة النهاية',1,'أحسنتِ.'],
+      ['نقطة التكافؤ',0,'نقطة التكافؤ تتساوى عندها المولات، وهي قد لا تطابق تغير اللون تمامًا.'],
+      ['نقطة التعادل الأولى',0,'هذا ليس مصطلحًا من مصطلحات المعايرة.'],
+      ['المحلول القياسي',0,'المحلول القياسي محلول تركيزه معروف، وليس نقطة.']]}
+  ]},
+{ id:'f17', lesson:4, title:'التميه', sim:'hydro',
+  canva:'https://www.canva.com/design/DAGuAiS--2I/JISV1I-H6KXcrbXGCdw27A/view?utm_content=DAGuAiS--2I&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha105c40863',
+  body:`<p><b>تميّه الأملاح</b> تفاعل تستقبل فيه أيونات الملح المذاب بروتونات من الماء أو تمنحه إياها، فيصبح المحلول حمضيًا أو قاعديًا. نوع المحلول يعتمد على مصدر الملح:</p>
+  <ul><li>حمض قوي + قاعدة قوية ← ملح متعادل، مثل ${c('NaCl')}.</li>
+  <li>حمض قوي + قاعدة ضعيفة ← ملح حمضي، مثل ${c('NH4Cl')}:</li></ul>
+  ${eq('NH4^+(aq) + H2O(l) <=> NH3(aq) + H3O^+(aq)')}
+  <ul><li>حمض ضعيف + قاعدة قوية ← ملح قاعدي، مثل ${c('CH3COONa')}:</li></ul>
+  ${eq('CH3COO^-(aq) + H2O(l) <=> CH3COOH(aq) + OH^-(aq)')}
+  <p>أما الملح الناتج من حمض ضعيف وقاعدة ضعيفة فيعتمد نوع محلوله على المقارنة بين ${c('Ka')} و ${c('Kb')}.</p>`,
+  qs:[
+    { q:`محلول ملح ${c('NH4Cl')} في الماء يكون:`, o:[
+      ['حمضيًا',1,'صحيح. NH4+ يمنح بروتونًا للماء فيتكون H3O+.'],
+      ['قاعديًا',0,'الملح القاعدي مصدره حمض ضعيف وقاعدة قوية. هنا القاعدة الأم NH3 ضعيفة والحمض HCl قوي.'],
+      ['متعادلًا',0,'المتعادل مصدره حمض قوي وقاعدة قوية. NH3 قاعدة ضعيفة.'],
+      ['لا يذوب في الماء',0,'كلوريد الأمونيوم يذوب جيدًا في الماء.']]},
+    { q:`محلول كربونات الصوديوم ${c('Na2CO3')} يكون قاعديًا لأنه ناتج من:`, o:[
+      ['حمض ضعيف وقاعدة قوية',1,'أحسنتِ. H2CO3 حمض ضعيف و NaOH قاعدة قوية، فيتميه أيون الكربونات منتجًا OH−.'],
+      ['حمض قوي وقاعدة قوية',0,'هذا يعطي ملحًا متعادلًا. حمض الكربونيك ليس قويًا.'],
+      ['حمض قوي وقاعدة ضعيفة',0,'هذا يعطي ملحًا حمضيًا.'],
+      ['حمض ضعيف وقاعدة ضعيفة',0,'NaOH قاعدة قوية، لا ضعيفة.']]}
+  ]}
+];
+FRAMES.forEach((f, i) => f.idx = i);
+const framesOf = lid => FRAMES.filter(f => f.lesson === lid);
+
+/* ---------- AI (sample capability) ---------- */
+let SAMPLE = null;
+(async () => {
+  try { if (window.claude && claude.use) SAMPLE = await claude.use('sample'); } catch (e) { SAMPLE = null; }
+  if (!SAMPLE) SAMPLE = await makeServerSample();
+  document.body.classList.toggle('ai-on', !!SAMPLE);
+})();
+/* Hosting outside Claude (Cloudflare Pages): talks to /api/ai served by _worker.js */
+async function makeServerSample(){
+  if (location.protocol === 'file:') return null;
+  try {
+    const r = await fetch('/api/ai', { method: 'GET', cache: 'no-store' });
+    if (!r.ok) return null;
+    const j = await r.json();
+    if (!j || !j.ok) return null;
+  } catch (e) { return null; }
+  const call = async (input, opts = {}) => {
+    let r;
+    try {
+      r = await fetch('/api/ai', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ input, tier: opts.modelTier || 'default' }), signal: opts.signal });
+    } catch (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'network' }; }
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || typeof j.text !== 'string') throw { code: j.code || 'upstream' };
+    if (opts.onText) opts.onText({ text: j.text, delta: j.text });
+    return { text: j.text, truncated: !!j.truncated };
+  };
+  call.json = async (input, opts = {}) => {
+    const { text } = await call(input, opts);
+    const clean = text.replace(/```json|```/g, '').trim();
+    const a = clean.indexOf('{'), b = clean.lastIndexOf('}');
+    if (a < 0 || b < a) throw { code: 'bad_shape' };
+    try { return JSON.parse(clean.slice(a, b + 1)); } catch (err) { throw { code: 'bad_shape' }; }
+  };
+  return call;
+}
+(() => {
+})();
+const PERSONA = `أنتِ «المعلمة الذكية» في منصة تعليم مبرمج لمقرر كيمياء 2-2 للمرحلة الثانوية في المملكة العربية السعودية، فصل «الأحماض والقواعد». تخاطبين طالبة بصيغة المؤنث، بالعربية الفصحى المبسطة الواضحة. التزمي بمحتوى كتاب الطالبة ومصطلحاته، وكوني دقيقة علميًا ومختصرة (لا تتجاوزي 120 كلمة ما لم يُطلب غير ذلك). اكتبي الصيغ الكيميائية بأحرف لاتينية مثل H3O+ و NH3. لا تستخدمي عناوين ولا جداول؛ فقرات قصيرة فقط، ويمكنك استخدام **للتأكيد** باعتدال.`;
+function aiErr(e){
+  const code = e && e.code;
+  if (code === 'not_granted') return 'لم يُسمح باستخدام المعلمة الذكية في هذه الجلسة.';
+  if (code === 'rate_limited') return 'طلبات كثيرة في وقت قصير، انتظري قليلًا ثم حاولي مرة أخرى.';
+  if (code === 'cancelled') return '';
+  return 'تعذّر الوصول إلى المعلمة الذكية الآن، حاولي بعد قليل.';
+}
+async function aiStream(input, outEl, opts = {}){
+  if (!SAMPLE) return null;
+  outEl.innerHTML = '<span class="who">المعلمة الذكية</span>تفكّر...';
+  try {
+    const { text } = await SAMPLE(input, Object.assign({
+      modelTier: 'quick',
+      onText: ({ text }) => { outEl.innerHTML = '<span class="who">المعلمة الذكية</span>' + fmtAI(text); }
+    }, opts));
+    outEl.innerHTML = '<span class="who">المعلمة الذكية</span>' + fmtAI(text);
+    return text;
+  } catch (e) {
+    outEl.innerHTML = '<span class="who">المعلمة الذكية</span>' + (e.text ? fmtAI(e.text) + '<br>' : '') + aiErr(e);
+    return null;
+  }
+}
+
+/* ---------- unlock logic ---------- */
+const frameUnlocked = i => S.unlockAll || i === 0 || !!S.done[FRAMES[i - 1].id];
+const lessonDone = lid => framesOf(lid).every(f => S.done[f.id]);
+const doneCount = () => FRAMES.filter(f => S.done[f.id]).length;
+
+function renderTop(){
+  const n = doneCount(), frac = n / FRAMES.length, lit = Math.round(frac * 15);
+  $('#miniStrip').innerHTML = IND.map((col, i) => `<i style="background:${col};opacity:${i < lit ? 1 : .18}"></i>`).join('');
+  $('#topCount').textContent = `${n} من ${FRAMES.length} إطارًا`;
+}
+
+/* ---------- router ---------- */
+function route(){
+  const h = location.hash.replace('#', '');
+  let m;
+  if ((m = h.match(/^l(\d)-f(\d+)$/))) { const fr = FRAMES.find(f => f.id === 'f' + m[2]); if (fr && frameUnlocked(fr.idx)) return renderFrame(fr); }
+  if ((m = h.match(/^l(\d)-end$/))) { const lid = +m[1]; if (LESSONS[lid - 1] && (lessonDone(lid) || S.unlockAll)) return renderEnd(lid); }
+  renderHome();
+}
+window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
+
+/* ---------- home ---------- */
+function renderHome(){
+  document.documentElement.style.setProperty('--acc', 'var(--l1)');
+  renderTop();
+  const n = doneCount(), lit = Math.round(n / FRAMES.length * 15);
+  const lrows = LESSONS.map(L => {
+    const fs = framesOf(L.id), d = fs.filter(f => S.done[f.id]).length;
+    const first = fs[0], unlocked = frameUnlocked(first.idx);
+    const next = fs.find(f => !S.done[f.id]);
+    let act;
+    if (!unlocked) act = `<span class="locked">يُفتح بعد إتقان الدرس السابق</span>`;
+    else if (d === fs.length) act = `<a class="btn ghost small" href="#l${L.id}-end">ملخص الدرس</a>`;
+    else act = `<a class="btn small" style="background:${L.color}" href="#l${L.id}-${next.id}">${d ? 'تابعي' : 'ابدئي'}</a>`;
+    return `<div class="lrow" style="--lc:${L.color}">
+      <div class="lnum">${L.id}</div>
+      <div><h2>${L.title}</h2>
+        <div class="lmeta">${fs.length} إطارات، أتقنتِ منها ${d}</div>
+        <div class="lbar"><b style="width:${d / fs.length * 100}%"></b></div>
+        <div class="frames-peek">${fs.map(f => f.title).join('، ')}</div></div>
+      <div class="lact">${act}</div></div>`;
+  }).join('');
+  $('#app').innerHTML = `
+  <section class="hero">
+    <h1>الأحماض والقواعد</h1>
+    <p class="lead">تعليم مبرمج: يتقدّم الفصل معك إطارًا بعد إطار، ولكل إطار مادة علمية ونشاط تفاعلي وأسئلة بتغذية راجعة فورية. لا تنتقلين إلى الإطار التالي إلا بعد إتقان ما قبله، والمعلمة الذكية ترافقك حين تحتاجين شرحًا آخر.</p>
+    <div class="strip-big" aria-hidden="true">${IND.map((col, i) => `<i class="${i < lit ? '' : 'off'}" style="background:${col}"></i>`).join('')}</div>
+    <div class="strip-nums" aria-hidden="true">${IND.map((_, i) => `<span>${i}</span>`).join('')}</div>
+    <p class="strip-cap">شريط الكاشف العام يتلوّن مع تقدّمك: أتقنتِ ${n} من ${FRAMES.length} إطارًا.</p>
+    <div class="name-row"><label for="nm">اسمك</label><input id="nm" value="${esc(S.name)}" placeholder="يظهر في تقرير تقدّمك" autocomplete="name"></div>
+  </section>
+  <p class="how">كيف تعمل المنصة؟ اقرئي المادة العلمية في الإطار، ثم جرّبي النشاط التفاعلي، وافتحي العرض المرئي إن أردتِ. بعدها أجيبي عن الأسئلة: الإجابة الصحيحة تفتح السؤال التالي، والخاطئة تعطيك توضيحًا لسبب الخطأ لتحاولي من جديد. <span class="ai-off">ميزات المعلمة الذكية غير مفعّلة حاليًا.</span></p>
+  <div class="lessons">${lrows}</div>`;
+  $('#nm').addEventListener('input', e => { S.name = e.target.value.trim(); save(); });
+}
+
+/* ---------- frame ---------- */
+const sessionOrder = {}; // option order per question (kept stable while retrying)
+const chats = {};
+function renderFrame(fr){
+  const L = LESSONS[fr.lesson - 1];
+  document.documentElement.style.setProperty('--acc', L.color);
+  renderTop();
+  const fs = framesOf(fr.lesson), pos = fs.indexOf(fr);
+  const side = fs.map((f, i) => {
+    const cls = [S.done[f.id] ? 'done' : '', f === fr ? 'cur' : '', frameUnlocked(f.idx) ? '' : 'lock'].join(' ');
+    const inner = `<span class="dot">${S.done[f.id] ? '✓' : i + 1}</span><span class="ftitle">${f.title}</span>`;
+    return `<li class="${cls}">${frameUnlocked(f.idx) ? `<a href="#l${fr.lesson}-${f.id}">${inner}</a>` : `<span>${inner}</span>`}</li>`;
+  }).join('');
+  const prev = fs[pos - 1], next = fs[pos + 1];
+  $('#app').innerHTML = `
+  <div class="lesson">
+    <aside class="side">
+      <a class="back" href="#home">الصفحة الرئيسة</a>
+      <h2>${L.ord}: ${L.title}</h2>
+      <ol>${side}</ol>
+      ${lessonDone(fr.lesson) ? `<div class="endlink"><a class="btn ghost small" href="#l${fr.lesson}-end">ملخص الدرس والتدريب الإضافي</a></div>` : ''}
+    </aside>
+    <article class="frame">
+      <p class="crumb">${L.ord}، الإطار ${pos + 1} من ${fs.length}</p>
+      <h2>${fr.title}</h2>
+      <section class="sci">${fr.body}</section>
+      <section class="sim"><h3>نشاط تفاعلي</h3><div id="simbox"></div></section>
+      <a class="canva" href="${fr.canva}" target="_blank" rel="noopener">
+        <span><b>العرض المرئي لهذا الإطار</b><small>رسومات وخرائط مفاهيم وتجارب من تصميم المعلمة، يفتح في Canva</small></span><span aria-hidden="true">↗</span></a>
+      <section class="qs" id="qs"><h3>أسئلة الإطار</h3><div id="qlist"></div></section>
+      <details class="tutor ai-only" id="tutor">
+        <summary>اسألي المعلمة الذكية عن هذا الإطار</summary>
+        <div class="tbody">
+          <div class="suggest">
+            <button class="chip" data-s="اشرحي لي الفكرة الأساسية في هذا الإطار بمثال من الحياة اليومية.">اشرحي بمثال من الحياة</button>
+            <button class="chip" data-s="لخّصي لي هذا الإطار في ثلاث جمل.">لخّصي الإطار</button>
+            <button class="chip" data-s="أعطيني سؤالًا قصيرًا واحدًا لأختبر فهمي، ولا تذكري الإجابة حتى أجيب.">اختبريني بسؤال</button>
+          </div>
+          <div class="chat" id="chat"></div>
+          <div class="ask"><input id="askIn" placeholder="اكتبي سؤالك هنا" aria-label="سؤالك للمعلمة الذكية"><button class="btn ai small" id="askBtn">أرسلي</button></div>
+        </div>
+      </details>
+      <nav class="fnav">
+        ${prev ? `<a class="btn ghost" href="#l${fr.lesson}-${prev.id}">الإطار السابق</a>` : '<span></span>'}
+        <span id="nextSlot"></span>
+      </nav>
+    </article>
+  </div>`;
+  (SIMS[fr.sim] || (() => {}))($('#simbox'));
+  renderQs(fr);
+  setupTutor(fr);
+  renderNext(fr, next);
+}
+function renderNext(fr, next){
+  const slot = $('#nextSlot');
+  if (!S.done[fr.id] && !S.unlockAll) { slot.innerHTML = `<span class="gate">أتقني أسئلة الإطار لينفتح الإطار التالي</span>`; return; }
+  slot.innerHTML = next ? `<a class="btn" href="#l${fr.lesson}-${next.id}">الإطار التالي</a>` : `<a class="btn" href="#l${fr.lesson}-end">إنهاء الدرس وعرض الملخص</a>`;
+}
+function renderQs(fr){
+  const box = $('#qlist');
+  box.innerHTML = '';
+  for (let k = 0; k < fr.qs.length; k++) {
+    const key = fr.id + '-' + k, Q = fr.qs[k];
+    if (S.correct[key]) {
+      const right = Q.o.find(o => o[1]);
+      box.insertAdjacentHTML('beforeend', `<div class="qdone"><b>✓</b> ${Q.q} <b>${right[0]}</b></div>`);
+      continue;
+    }
+    if (!sessionOrder[key]) sessionOrder[key] = shuffle(Q.o.map((_, i) => i));
+    const div = document.createElement('div');
+    div.className = 'q';
+    div.innerHTML = `<p class="qt">${k + 1}. ${Q.q}</p><div class="opts">${sessionOrder[key].map(i => `<button class="opt" data-i="${i}">${Q.o[i][0]}</button>`).join('')}</div><div class="fbz"></div>`;
+    box.appendChild(div);
+    div.querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => answer(fr, k, +b.dataset.i, b, div)));
+    return; // show one unanswered question at a time
+  }
+  // all correct
+  if (!S.done[fr.id]) { S.done[fr.id] = true; save(); renderTop(); }
+  box.insertAdjacentHTML('beforeend', `<div class="fb good">أتقنتِ هذا الإطار. ${fr.idx === FRAMES.length - 1 ? 'وصلتِ إلى نهاية الفصل.' : 'يمكنك الانتقال إلى ما بعده.'}</div>`);
+  const fs = framesOf(fr.lesson);
+  renderNext(fr, fs[fs.indexOf(fr) + 1]);
+  // refresh sidebar dot
+  const li = $$('.side li')[fs.indexOf(fr)]; if (li) { li.classList.add('done'); li.querySelector('.dot').textContent = '✓'; }
+  const nli = $$('.side li')[fs.indexOf(fr) + 1];
+  if (nli && nli.classList.contains('lock')) { const nf = fs[fs.indexOf(fr) + 1]; nli.classList.remove('lock'); nli.innerHTML = `<a href="#l${fr.lesson}-${nf.id}">${nli.querySelector('span').innerHTML}</a>`; }
+}
+function answer(fr, k, i, btn, div){
+  const key = fr.id + '-' + k, Q = fr.qs[k], opt = Q.o[i];
+  S.att[key] = (S.att[key] || 0) + 1;
+  const fbz = div.querySelector('.fbz');
+  if (opt[1]) {
+    if (S.att[key] === 1) S.first[key] = true;
+    S.correct[key] = true; save();
+    btn.classList.add('right');
+    div.querySelectorAll('.opt').forEach(b => b.disabled = true);
+    fbz.innerHTML = `<div class="fb good">${opt[2]}</div>`;
+    setTimeout(() => renderQs(fr), 1300);
+  } else {
+    save();
+    btn.classList.add('wrong'); btn.disabled = true;
+    const right = Q.o.find(o => o[1]);
+    fbz.innerHTML = `<div class="fb bad">${opt[2]} حاولي مرة أخرى.</div>
+      <div class="row ai-only"><button class="btn ai small">وضّحي لي بطريقة أخرى</button></div><div class="aiout"></div>`;
+    const aiBtn = fbz.querySelector('.btn.ai');
+    if (aiBtn) aiBtn.addEventListener('click', async () => {
+      aiBtn.disabled = true;
+      const out = fbz.querySelector('.aiout'); out.className = 'ai-box';
+      const prompt = `${PERSONA}
+
+المادة العلمية للإطار «${fr.title}»:
+${plain(fr.body)}
+
+السؤال: ${plain(Q.q)}
+الخيارات: ${Q.o.map(o => plain(o[0])).join(' | ')}
+اختارت الطالبة: «${plain(opt[0])}» وهي إجابة خاطئة.
+(للعلم فقط، الإجابة الصحيحة: «${plain(right[0])}». لا تذكريها صراحة.)
+
+المطلوب: حدّدي سوء الفهم المحتمل الذي قاد الطالبة إلى هذا الاختيار، واشرحي الفكرة بطريقة مختلفة عن الشرح في الإطار (تشبيه أو مثال)، ثم اختمي بتلميح أو سؤال توجيهي يقودها إلى الإجابة بنفسها. لا تكشفي الخيار الصحيح.`;
+      await aiStream(prompt, out);
+      aiBtn.disabled = false;
+    });
+  }
+}
+function setupTutor(fr){
+  const chatEl = $('#chat'), input = $('#askIn'), btn = $('#askBtn');
+  if (!chatEl) return;
+  const turns = chats[fr.id] || (chats[fr.id] = []);
+  const draw = () => { chatEl.innerHTML = turns.map(t => `<div class="msg ${t.role === 'user' ? 'me' : 'bot'}">${t.role === 'user' ? esc(t.show || t.content) : fmtAI(t.content)}</div>`).join(''); chatEl.scrollTop = chatEl.scrollHeight; };
+  draw();
+  async function send(text){
+    text = text.trim(); if (!text || !SAMPLE) return;
+    const first = turns.length === 0;
+    turns.push({ role: 'user', show: text, content: first ? `${PERSONA}\n\nالطالبة تدرس الآن الإطار «${fr.title}». مادته العلمية:\n${plain(fr.body)}\n\nأجيبي عن أسئلتها في حدود هذا الفصل. إن سألت عن موضوع خارج الكيمياء فأعيديها بلطف إلى الدرس.\n\nسؤال الطالبة: ${text}` : text });
+    draw();
+    const bubble = document.createElement('div'); bubble.className = 'msg bot'; bubble.textContent = 'تفكّر...'; chatEl.appendChild(bubble);
+    btn.disabled = true;
+    try {
+      const { text: ans } = await SAMPLE(turns.map(t => ({ role: t.role, content: t.content })), { cache: false, modelTier: 'quick', onText: ({ text }) => { bubble.innerHTML = fmtAI(text); chatEl.scrollTop = chatEl.scrollHeight; } });
+      turns.push({ role: 'assistant', content: ans });
+    } catch (e) {
+      turns.pop();
+      bubble.textContent = aiErr(e);
+    }
+    btn.disabled = false;
+    if (turns.length && turns[turns.length - 1].role === 'assistant') draw();
+  }
+  btn.addEventListener('click', () => { send(input.value); input.value = ''; });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { send(input.value); input.value = ''; } });
+  $$('#tutor .suggest .chip').forEach(b => b.addEventListener('click', () => send(b.dataset.s)));
+}
+
+/* ---------- lesson end ---------- */
+function frameStats(f){
+  const n = f.qs.length;
+  let att = 0, first = 0;
+  f.qs.forEach((_, k) => { const key = f.id + '-' + k; att += S.att[key] || 0; if (S.first[key]) first++; });
+  return { n, att, first };
+}
+function renderEnd(lid){
+  const L = LESSONS[lid - 1];
+  document.documentElement.style.setProperty('--acc', L.color);
+  renderTop();
+  const fs = framesOf(lid);
+  let tq = 0, tf = 0;
+  const rows = fs.map(f => { const s = frameStats(f); tq += s.n; tf += s.first;
+    return `<tr><td>${f.title}</td><td>${s.att}</td><td>${s.first} من ${s.n}</td><td>${s.first === s.n ? '<span class="pill g">متقن</span>' : '<span class="pill y">يحتاج مراجعة</span>'}</td></tr>`; }).join('');
+  const weak = fs.filter(f => { const s = frameStats(f); return s.first < s.n; });
+  const nextL = LESSONS[lid];
+  $('#app').innerHTML = `
+  <article class="frame">
+    <p class="crumb">${L.ord}</p>
+    <h2>ملخص درس ${L.title}</h2>
+    <p>أجبتِ عن <b>${tf}</b> من <b>${tq}</b> سؤالًا من المحاولة الأولى${S.name ? '، يا ' + esc(S.name) : ''}.</p>
+    <div class="tblwrap"><table class="stats"><thead><tr><th>الإطار</th><th>عدد المحاولات</th><th>صحيح من أول محاولة</th><th>الحالة</th></tr></thead><tbody>${rows}</tbody></table></div>
+    ${weak.length ? `<p>إطارات تستحق المراجعة: ${weak.map(f => `<a href="#l${lid}-${f.id}">${f.title}</a>`).join('، ')}.</p>` : '<p>أتقنتِ جميع إطارات الدرس من المحاولة الأولى.</p>'}
+
+    <div class="panel">
+      <h3>تقرير المعلمة الذكية</h3>
+      <p class="ai-off">تقرير المعلمة الذكية غير مفعّل حاليًا.</p>
+      <div class="ai-only"><button class="btn ai small" id="repBtn">اكتبي لي تقريرًا عن أدائي</button><div id="repOut"></div></div>
+    </div>
+
+    <div class="panel">
+      <h3>تدريب إضافي مولَّد بالذكاء الاصطناعي</h3>
+      <p class="ai-off">التدريب الإضافي غير مفعّل حاليًا.</p>
+      <div class="ai-only">
+        <p style="margin:.2rem 0 .5rem">أسئلة جديدة في كل مرة، تركّز على الإطارات التي احتجتِ فيها إلى أكثر من محاولة.</p>
+        <div class="chips" id="lvl"><button class="chip on" data-l="سهل">سهل</button><button class="chip" data-l="متوسط">متوسط</button><button class="chip" data-l="صعب (مستوى التحصيلي)">صعب</button></div>
+        <button class="btn ai small" id="genBtn">ولّدي 3 أسئلة جديدة</button>
+        <div id="genOut"></div>
+      </div>
+    </div>
+
+    <nav class="fnav">
+      <a class="btn ghost" href="#home">الصفحة الرئيسة</a>
+      ${nextL ? `<a class="btn" style="background:${nextL.color}" href="#l${nextL.id}-${framesOf(nextL.id)[0].id}">${nextL.ord}: ${nextL.title}</a>` : '<span class="gate">أتممتِ فصل الأحماض والقواعد</span>'}
+    </nav>
+  </article>`;
+  const lessonText = fs.map(f => `【${f.title}】 ${plain(f.body)}`).join('\n');
+  const statsText = fs.map(f => { const s = frameStats(f); return `- ${f.title}: ${s.att} محاولة لـ ${s.n} أسئلة، صحيح من أول محاولة ${s.first}`; }).join('\n');
+
+  $('#repBtn') && $('#repBtn').addEventListener('click', async e => {
+    e.target.disabled = true; const out = $('#repOut'); out.className = 'ai-box';
+    await aiStream(`${PERSONA}
+
+اكتبي تقريرًا قصيرًا (حتى 150 كلمة) للطالبة ${S.name || ''} عن أدائها في «${L.title}». أداؤها في الإطارات:
+${statsText}
+
+ابدئي بنقطة قوة حقيقية من البيانات، ثم حدّدي المفاهيم التي تحتاج مراجعة مع نصيحة عملية محددة لكل منها، واختمي بخطوة واحدة تفعلها الآن. كوني صادقة ومشجعة دون مبالغة.`, out, { modelTier: 'default' });
+    e.target.disabled = false;
+  });
+  let level = 'سهل';
+  $$('#lvl .chip').forEach(b => b.addEventListener('click', () => { $$('#lvl .chip').forEach(x => x.classList.remove('on')); b.classList.add('on'); level = b.dataset.l; }));
+  $('#genBtn') && $('#genBtn').addEventListener('click', async e => {
+    const btn = e.target, out = $('#genOut');
+    btn.disabled = true; out.innerHTML = '<div class="ai-box"><span class="who">المعلمة الذكية</span>تُعدّ الأسئلة...</div>';
+    const focus = weak.length ? weak.map(f => f.title).join('، ') : 'جميع إطارات الدرس بالتساوي';
+    const prompt = `${PERSONA}
+
+ولّدي 3 أسئلة اختيار من متعدد جديدة (غير منسوخة من النص) بمستوى «${level}» عن الدرس «${L.title}»، مع التركيز على: ${focus}.
+المادة العلمية:
+${lessonText}
+
+الشروط: لكل سؤال 4 خيارات، خيار واحد فقط صحيح علميًا، والمشتتات معقولة تعكس أخطاء شائعة لدى الطالبات. اكتبي الصيغ بأحرف لاتينية بسيطة (H3O+، NH4+، 10^-4). نوّعي موضع الإجابة الصحيحة.
+أعيدي JSON فقط بهذا الشكل دون أي نص آخر:
+{"questions":[{"q":"نص السؤال","options":["أ","ب","ج","د"],"answer":0,"explanation":"شرح مختصر لسبب صحة الإجابة"}]}`;
+    try {
+      const data = await SAMPLE.json(prompt, { modelTier: 'default', cache: false });
+      const qs = (data && Array.isArray(data.questions)) ? data.questions.filter(q => q && q.q && Array.isArray(q.options) && q.options.length === 4 && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4) : [];
+      if (!qs.length) throw { code: 'bad_shape' };
+      out.innerHTML = qs.map((q, qi) => `<div class="gq" data-a="${q.answer}"><p class="qt">${qi + 1}. ${esc(q.q)}</p><div class="opts">${q.options.map((o, oi) => `<button class="opt" data-i="${oi}">${esc(o)}</button>`).join('')}</div><div class="fbz"></div></div>`).join('');
+      $$('#genOut .gq').forEach((g, gi) => {
+        g.querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => {
+          const ok = +b.dataset.i === +g.dataset.a;
+          if (ok) {
+            b.classList.add('right'); g.querySelectorAll('.opt').forEach(x => x.disabled = true);
+            g.querySelector('.fbz').innerHTML = `<div class="fb good">${esc(qs[gi].explanation || 'إجابة صحيحة.')}</div>`;
+          } else {
+            b.classList.add('wrong'); b.disabled = true;
+            g.querySelector('.fbz').innerHTML = `<div class="fb bad">ليست هذه. فكّري مرة أخرى وجرّبي خيارًا آخر.</div>`;
+          }
+        }));
+      });
+    } catch (err) {
+      out.innerHTML = `<div class="ai-box">${err && err.code === 'bad_shape' ? 'لم تصل الأسئلة بالشكل المطلوب، اضغطي الزر مرة أخرى.' : aiErr(err)}</div>`;
+    }
+    btn.disabled = false;
+  });
+}
+
+/* ---------- simulations ---------- */
+function chipGroup(box, sel, onPick){
+  $$(sel + ' .chip', box).forEach(b => b.addEventListener('click', () => {
+    $$(sel + ' .chip', box).forEach(x => x.classList.remove('on')); b.classList.add('on'); onPick(+b.dataset.i, b);
+  }));
+}
+const SIMS = {
+  litmus(box){
+    const subs = [['عصير الليمون','a'],['الخل','a'],['ماء الصابون','b'],['محلول الأمونيا','b'],['الماء المقطر','n']];
+    const BLUE = '#3A6CCF', RED = '#D6424F';
+    let cur = 0;
+    box.innerHTML = `<p class="hint">اختاري محلولًا ثم اغمسي فيه ورقتي تبّاع الشمس.</p>
+      <div class="chips" id="lc">${subs.map((s, i) => `<button class="chip${i ? '' : ' on'}" data-i="${i}">${s[0]}</button>`).join('')}</div>
+      <div class="litmus-stage">
+        <div class="paper"><div class="strip" style="background:${BLUE}"><i id="sb" style="background:${BLUE}"></i></div>ورقة زرقاء</div>
+        <div class="paper"><div class="strip" style="background:${RED}"><i id="sr" style="background:${RED}"></i></div>ورقة حمراء</div>
+      </div>
+      <div class="row" style="justify-content:center"><button class="btn small" id="dip">اغمسي الورقتين</button></div>
+      <p class="out" id="lo"></p>`;
+    const reset = () => { $('#sb', box).style.background = BLUE; $('#sr', box).style.background = RED; $('#lo', box).textContent = ''; };
+    chipGroup(box, '#lc', i => { cur = i; reset(); });
+    $('#dip', box).addEventListener('click', () => {
+      const t = subs[cur][1];
+      $('#sb', box).style.background = t === 'a' ? RED : BLUE;
+      $('#sr', box).style.background = t === 'b' ? BLUE : RED;
+      $('#lo', box).textContent = t === 'a' ? `تحولت الورقة الزرقاء إلى الأحمر وبقيت الحمراء كما هي: ${subs[cur][0]} محلول حمضي.`
+        : t === 'b' ? `تحولت الورقة الحمراء إلى الأزرق وبقيت الزرقاء كما هي: ${subs[cur][0]} محلول قاعدي.`
+        : 'لم يتغير لون أيٍّ من الورقتين: الماء المقطر متعادل.';
+    });
+  },
+  reaction(box){
+    const R = [
+      ['شريط ماغنسيوم', 'Mg(s) + 2HCl(aq) -> MgCl2(aq) + H2(g)', 'تتصاعد فقاعات غاز الهيدروجين. عند تقريب شظية مشتعلة يُسمع صوت فرقعة.', true],
+      ['كربونات الكالسيوم', 'CaCO3(s) + 2HCl(aq) -> CaCl2(aq) + H2O(l) + CO2(g)', 'تتصاعد فقاعات غاز ثاني أكسيد الكربون. الغاز يعكّر ماء الجير ويطفئ الشظية المشتعلة.', true],
+      ['قطعة نحاس', '', 'لا تظهر فقاعات. النحاس أقل نشاطًا من الهيدروجين فلا يحل محله في الحمض.', false]
+    ];
+    const bubbles = Array.from({ length: 14 }, (_, i) => `<circle class="bub" cx="${60 + (i * 37) % 60}" cy="160" r="${2 + (i % 3)}" fill="none" stroke="currentColor" stroke-width="1.4" style="animation-delay:${(i * .13).toFixed(2)}s"/>`).join('');
+    box.innerHTML = `<p class="hint">أضيفي مادة إلى كأس فيها حمض الهيدروكلوريك المخفف ولاحظي.</p>
+      <div class="chips" id="rc">${R.map((r, i) => `<button class="chip" data-i="${i}">${r[0]}</button>`).join('')}</div>
+      <svg class="beaker" id="bk" viewBox="0 0 180 190" aria-label="كأس فيها حمض">
+        <path d="M40 20 L40 170 Q40 182 52 182 L128 182 Q140 182 140 170 L140 20" fill="none" stroke="var(--muted)" stroke-width="3"/>
+        <rect x="42" y="70" width="96" height="110" rx="8" fill="var(--l3)" opacity=".16"/>
+        <text x="90" y="62" text-anchor="middle" font-size="12" fill="var(--muted)">HCl<tspan font-size="7" dy="3">(aq)</tspan></text>
+        <rect id="solid" x="70" y="166" width="40" height="10" rx="3" fill="var(--muted)" opacity="0"/>
+        <g style="color:var(--ink)">${bubbles}</g>
+      </svg>
+      <div id="ro"></div>`;
+    chipGroup(box, '#rc', i => {
+      const r = R[i];
+      $('#solid', box).setAttribute('opacity', '.8');
+      $('#solid', box).setAttribute('fill', i === 2 ? '#B87333' : i === 1 ? '#CFC9BE' : '#A9B4BC');
+      $('#bk', box).classList.toggle('on', r[3]);
+      $('#ro', box).innerHTML = (r[1] ? eq(r[1]) : '') + `<p class="out">${r[2]}</p>`;
+    });
+  },
+  ions(box){
+    box.innerHTML = `<p class="hint">حرّكي المؤشر لتغيير نسبة الأيونين في المحلول.</p>
+      <div class="bars"><div class="bar"><b id="bh" style="background:var(--l1)"></b><span>${c('H3O^+')}</span></div><div class="bar"><b id="bo" style="background:var(--l4)"></b><span>${c('OH^-')}</span></div></div>
+      <input type="range" id="ir" min="0" max="14" step="1" value="7" aria-label="نسبة الأيونات">
+      <div class="rangelbl"><span>أضيفي حمضًا</span><span>أضيفي قاعدة</span></div>
+      <p class="out" id="io"></p>`;
+    const upd = () => {
+      const v = +$('#ir', box).value;
+      $('#bh', box).style.height = (8 + (14 - v) / 14 * 140) + 'px';
+      $('#bo', box).style.height = (8 + v / 14 * 140) + 'px';
+      $('#io', box).innerHTML = v < 7 ? `${c('[H3O^+]')} أكبر من ${c('[OH^-]')}، فالمحلول <b>حمضي</b>.` : v > 7 ? `${c('[OH^-]')} أكبر من ${c('[H3O^+]')}، فالمحلول <b>قاعدي</b>.` : 'التركيزان متساويان، فالمحلول <b>متعادل</b> مثل الماء النقي.';
+    };
+    // RTL: slider right=0; keep semantic: low value = acid
+    $('#ir', box).addEventListener('input', upd); upd();
+  },
+  arrhenius(box){
+    const D = [
+      ['HCl','HCl(aq) -> H^+(aq) + Cl^-(aq)','حمض أرهينيوس: يحتوي على الهيدروجين ويتأين منتجًا H+.'],
+      ['HNO3','HNO3(aq) -> H^+(aq) + NO3^-(aq)','حمض أرهينيوس: يتأين منتجًا H+.'],
+      ['NaOH','NaOH(s) -> Na^+(aq) + OH^-(aq)','قاعدة أرهينيوس: تحتوي على OH وتتفكك منتجة OH−.'],
+      ['KOH','KOH(s) -> K^+(aq) + OH^-(aq)','قاعدة أرهينيوس: تتفكك منتجة OH−.'],
+      ['NH3','','محلولها قاعدي، لكنها لا تحتوي على مجموعة OH. نظرية أرهينيوس لا تفسّر قاعديتها، وهذا قصور في النظرية.'],
+      ['CH4','','لا يتأين في الماء ولا ينتج H+ أو OH−، فليس حمضًا ولا قاعدة.']
+    ];
+    box.innerHTML = `<p class="hint">اختاري مادة لتري سلوكها في الماء وفق نموذج أرهينيوس.</p>
+      <div class="chips" id="ac">${D.map((d, i) => `<button class="chip" data-i="${i}">${c(d[0])}</button>`).join('')}</div><div id="ao"></div>`;
+    chipGroup(box, '#ac', i => { const d = D[i]; $('#ao', box).innerHTML = (d[1] ? eq(d[1]) : '') + `<p class="out">${d[2]}</p>`; });
+  },
+  bronsted(box){
+    const ROLES = ['؟','حمض','قاعدة','حمض مرافق','قاعدة مرافقة'];
+    const E = [
+      { sp:['HCl','H2O','H3O^+','Cl^-'], ans:[1,2,3,4] },
+      { sp:['NH3','H2O','NH4^+','OH^-'], ans:[2,1,3,4] },
+      { sp:['HCO3^-','H2O','H2CO3','OH^-'], ans:[2,1,3,4] }
+    ];
+    let cur = 0, sel = [0,0,0,0];
+    box.innerHTML = `<p class="hint">اضغطي على كل مادة لتحديد دورها، ثم تحقّقي.</p>
+      <div class="chips" id="bc">${E.map((e, i) => `<button class="chip${i ? '' : ' on'}" data-i="${i}">المعادلة ${i + 1}</button>`).join('')}</div>
+      <div class="bl-eq" id="be"></div>
+      <div class="row" style="justify-content:center"><button class="btn small" id="bchk">تحقّقي</button></div><p class="out" id="bo"></p>`;
+    const draw = () => {
+      const e = E[cur];
+      $('#be', box).innerHTML = e.sp.map((s, j) => `<button class="sp" data-j="${j}">${chemHTML(s)}<small>${ROLES[sel[j]]}</small></button>`).join('').replace(/(<\/button>)(<button class="sp" data-j="1")/, '$1<span>+</span>$2').replace(/(<\/button>)(<button class="sp" data-j="2")/, '$1<span>⇌</span>$2').replace(/(<\/button>)(<button class="sp" data-j="3")/, '$1<span>+</span>$2');
+      $$('#be .sp', box).forEach(b => b.addEventListener('click', () => { const j = +b.dataset.j; sel[j] = sel[j] % 4 + 1; draw(); }));
+    };
+    chipGroup(box, '#bc', i => { cur = i; sel = [0,0,0,0]; $('#bo', box).textContent = ''; draw(); });
+    $('#bchk', box).addEventListener('click', () => {
+      const e = E[cur]; let wrong = 0;
+      $$('#be .sp', box).forEach((b, j) => { const ok = sel[j] === e.ans[j]; b.classList.toggle('okk', ok); b.classList.toggle('nok', !ok); if (!ok) wrong++; });
+      $('#bo', box).textContent = wrong ? `${wrong} من الأدوار غير صحيحة. تذكّري: المانح للبروتون حمض، وما يتبقى منه قاعدته المرافقة.` : 'ممتاز! حددتِ الزوجين المترافقين بشكل صحيح.';
+    });
+    draw();
+  },
+  polyprotic(box){
+    const A = [
+      ['HCl', ['HCl + H2O -> H3O^+ + Cl^-'], 'أحادي البروتون'],
+      ['CH3COOH', ['CH3COOH + H2O <=> H3O^+ + CH3COO^-'], 'أحادي البروتون: هيدروجين مجموعة COOH فقط يتأين'],
+      ['H2SO4', ['H2SO4 + H2O -> H3O^+ + HSO4^-','HSO4^- + H2O <=> H3O^+ + SO4^2-'], 'ثنائي البروتون'],
+      ['H2CO3', ['H2CO3 + H2O <=> H3O^+ + HCO3^-','HCO3^- + H2O <=> H3O^+ + CO3^2-'], 'ثنائي البروتون'],
+      ['H3PO4', ['H3PO4 + H2O <=> H3O^+ + H2PO4^-','H2PO4^- + H2O <=> H3O^+ + HPO4^2-','HPO4^2- + H2O <=> H3O^+ + PO4^3-'], 'ثلاثي البروتون']
+    ];
+    let cur = 4, step = 0;
+    box.innerHTML = `<p class="hint">اختاري حمضًا ثم تابعي خطوات تأينه.</p>
+      <div class="chips" id="pc">${A.map((a, i) => `<button class="chip${i === 4 ? ' on' : ''}" data-i="${i}">${c(a[0])}</button>`).join('')}</div>
+      <div class="steps" id="ps"></div>
+      <div class="row"><button class="btn small" id="pn">الخطوة التالية</button><span id="pl" class="out" style="margin:0"></span></div>`;
+    const draw = () => {
+      const a = A[cur];
+      $('#ps', box).innerHTML = a[1].slice(0, step).map(s => eq(s)).join('');
+      $('#pn', box).disabled = step >= a[1].length;
+      $('#pl', box).textContent = step >= a[1].length ? `${a[2]} (${a[1].length} ${a[1].length === 1 ? 'خطوة' : 'خطوات'})` : '';
+    };
+    chipGroup(box, '#pc', i => { cur = i; step = 0; draw(); });
+    $('#pn', box).addEventListener('click', () => { step++; draw(); });
+    draw();
+  },
+  lewis(box){
+    box.innerHTML = `<p class="hint">لاحظي من يمنح زوج الإلكترونات ومن يستقبله.</p>
+      <div class="lewis" id="lw">
+        <div class="mol">BF<sub>3</sub><small>البورون حوله 6 إلكترونات فقط</small></div>
+        <div class="larrow" aria-hidden="true">⟵</div>
+        <div class="mol n"><span class="lp">••</span>NH<sub>3</sub><small>النيتروجين يملك زوجًا حرًا</small></div>
+      </div>
+      <div class="row" style="justify-content:center"><button class="btn small" id="lg">أكملي التفاعل</button></div><div id="lo2"></div>`;
+    $('#lg', box).addEventListener('click', e => {
+      const go = !$('#lw', box).classList.contains('go');
+      $('#lw', box).classList.toggle('go', go);
+      e.target.textContent = go ? 'إعادة' : 'أكملي التفاعل';
+      $('#lo2', box).innerHTML = go ? eq('BF3 + NH3 -> F3B–NH3') + `<p class="out">النيتروجين (قاعدة لويس) منح زوجه الحر للبورون (حمض لويس)، فتكونت رابطة تساهمية تناسقية.</p>` : '';
+    });
+  },
+  strength(box){
+    const make = (arr) => arr.map(([t, k, n]) => Array.from({ length: n }, () => `<span class="pt ${k}">${chemHTML(t)}</span>`).join('')).join('');
+    const D = [
+      ['HCl', [['H3O^+','h',8],['Cl^-','a',8]], 1, 'تأين كلي: كل جزيئات HCl تحولت إلى أيونات، فالمصباح يضيء بشدة.'],
+      ['CH3COOH', [['CH3COOH','m',11],['H3O^+','h',1],['CH3COO^-','a',1]], .25, 'تأين جزئي: معظم الجزيئات بقيت دون تأين، فالأيونات قليلة والمصباح خافت. (تمثيل تقريبي)']
+    ];
+    box.innerHTML = `<p class="hint">قارني محلولين تركيز كل منهما 0.1 M.</p>
+      <div class="chips" id="sc">${D.map((d, i) => `<button class="chip${i ? '' : ' on'}" data-i="${i}">${c(d[0])}</button>`).join('')}</div>
+      <div class="parts" id="sp"></div>
+      <div class="bulbrow"><svg width="56" height="70" viewBox="0 0 56 70" aria-label="مصباح اختبار التوصيل"><circle id="glow" cx="28" cy="26" r="26" fill="#FFD84D"/><circle cx="28" cy="26" r="17" fill="none" stroke="var(--muted)" stroke-width="2.5"/><rect x="20" y="44" width="16" height="14" rx="2" fill="var(--muted)"/></svg><p class="out" id="so" style="margin:0"></p></div>`;
+    const draw = i => { const d = D[i]; $('#sp', box).innerHTML = make(d[1]); $('#glow', box).setAttribute('opacity', d[2]); $('#so', box).textContent = d[3]; };
+    chipGroup(box, '#sc', draw); draw(0);
+  },
+  equil(box){
+    const A = [['HCl','Cl^-',true],['HNO3','NO3^-',true],['HF','F^-',false],['CH3COOH','CH3COO^-',false],['HCN','CN^-',false]];
+    box.innerHTML = `<p class="hint">اختاري حمضًا ولاحظي اتجاه الاتزان وقوة قاعدته المرافقة.</p>
+      <div class="chips" id="ec">${A.map((a, i) => `<button class="chip${i ? '' : ' on'}" data-i="${i}">${c(a[0])}</button>`).join('')}</div>
+      <div class="bl-eq" id="ee"></div><p class="out" id="eo"></p>`;
+    const draw = i => {
+      const [a, b, strong] = A[i];
+      const fw = strong ? 6 : 1.5, bw = strong ? 0 : 6;
+      $('#ee', box).innerHTML = `<span>${chemHTML(a + ' + H2O')}</span>
+        <svg width="90" height="36" viewBox="0 0 90 36" aria-hidden="true"><line x1="6" y1="11" x2="78" y2="11" stroke="var(--l1)" stroke-width="${fw}"/><path d="M78 4 L88 11 L78 18 Z" fill="var(--l1)"/>${bw ? `<line x1="12" y1="26" x2="84" y2="26" stroke="var(--l4)" stroke-width="${bw}"/><path d="M12 19 L2 26 L12 33 Z" fill="var(--l4)"/>` : ''}</svg>
+        <span>${chemHTML('H3O^+ + ' + b)}</span>`;
+      $('#eo', box).innerHTML = strong ? `حمض قوي: الاتزان مزاح كليًا نحو النواتج، والقاعدة المرافقة ${c(b)} ضعيفة جدًا.` : `حمض ضعيف: الاتزان جهة المتفاعلات (السهم العكسي أقوى)، والقاعدة المرافقة ${c(b)} أقوى نسبيًا وتستعيد البروتون.`;
+    };
+    chipGroup(box, '#ec', draw); draw(0);
+  },
+  rankKa(box){ ranker(box, 'رتّبي الأحماض من الأقوى إلى الأضعف بالضغط عليها بالترتيب.', [
+    ['HF', '6.3 × 10<sup>−4</sup>', 6.3e-4], ['CH3COOH', '1.8 × 10<sup>−5</sup>', 1.8e-5], ['H2CO3', '4.5 × 10<sup>−7</sup>', 4.5e-7], ['HCN', '6.2 × 10<sup>−10</sup>', 6.2e-10]], 'Ka'); },
+  rankKb(box){ ranker(box, 'رتّبي القواعد الضعيفة من الأقوى إلى الأضعف.', [
+    ['إيثيل أمين', '5.0 × 10<sup>−4</sup>', 5.0e-4], ['ميثيل أمين', '4.3 × 10<sup>−4</sup>', 4.3e-4], ['الأمونيا', '2.5 × 10<sup>−5</sup>', 2.5e-5], ['الأنيلين', '4.3 × 10<sup>−10</sup>', 4.3e-10]], 'Kb', true); },
+  phslider(box){
+    box.innerHTML = `<p class="hint">حرّكي المؤشر وراقبي تغيّر التراكيز ولون الكاشف العام.</p>
+      <div class="phview"><div class="swatch" id="sw"></div>
+      <dl class="kv"><dt>pH</dt><dd id="v1"></dd><dt>[H<sup>+</sup>]</dt><dd id="v2"></dd><dt>[OH<sup>−</sup>]</dt><dd id="v3"></dd><dt>نوع المحلول</dt><dd id="v4" style="direction:rtl"></dd></dl></div>
+      <input type="range" id="pr" min="0" max="14" step="0.1" value="3" aria-label="قيمة pH" style="direction:ltr;margin-top:1rem">
+      <div class="rangelbl" style="direction:ltr"><span>0</span><span>7</span><span>14</span></div>`;
+    const upd = () => {
+      const p = +$('#pr', box).value;
+      $('#sw', box).style.background = phColor(p);
+      $('#v1', box).textContent = p.toFixed(1);
+      $('#v2', box).innerHTML = sci(Math.pow(10, -p)) + ' M';
+      $('#v3', box).innerHTML = sci(Math.pow(10, p - 14)) + ' M';
+      $('#v4', box).textContent = p < 6.95 ? 'حمضي' : p > 7.05 ? 'قاعدي' : 'متعادل';
+    };
+    $('#pr', box).addEventListener('input', upd); upd();
+  },
+  calc(box){
+    box.innerHTML = `<p class="hint">اختاري الكمية المعلومة وأدخلي قيمتها، وستحسب المنصة الكميات الأخرى.</p>
+      <div class="calc"><select id="ck" aria-label="الكمية المعلومة"><option value="pH">pH</option><option value="pOH">pOH</option><option value="H">[H⁺]</option><option value="OH">[OH⁻]</option></select>
+      <span id="cin"></span><button class="btn small" id="cgo">احسبي</button></div>
+      <div class="phview" style="margin-top:1rem"><div class="swatch" id="csw" style="background:var(--surface)"></div><dl class="kv" id="cout"></dl></div>`;
+    const inp = () => {
+      const k = $('#ck', box).value;
+      $('#cin', box).innerHTML = (k === 'pH' || k === 'pOH') ? `<input id="cv" type="number" step="0.01" value="${k === 'pH' ? 3.5 : 4}" aria-label="القيمة">` :
+        `<input id="cm" type="number" step="0.1" value="2.5" aria-label="المعامل"> <span dir="ltr">× 10^</span> <input id="ce" type="number" step="1" value="-4" aria-label="الأس" style="width:4.5rem">`;
+    };
+    $('#ck', box).addEventListener('change', inp); inp();
+    $('#cgo', box).addEventListener('click', () => {
+      const k = $('#ck', box).value; let pH;
+      if (k === 'pH') pH = +$('#cv', box).value;
+      else if (k === 'pOH') pH = 14 - +$('#cv', box).value;
+      else { const conc = +$('#cm', box).value * Math.pow(10, +$('#ce', box).value); if (!(conc > 0)) { $('#cout', box).innerHTML = '<dt>تنبيه</dt><dd style="direction:rtl">أدخلي تركيزًا موجبًا.</dd>'; return; } pH = k === 'H' ? -Math.log10(conc) : 14 + Math.log10(conc); }
+      if (!isFinite(pH)) return;
+      $('#csw', box).style.background = phColor(pH);
+      $('#cout', box).innerHTML = `<dt>pH</dt><dd>${pH.toFixed(2)}</dd><dt>pOH</dt><dd>${(14 - pH).toFixed(2)}</dd><dt>[H<sup>+</sup>]</dt><dd>${sci(Math.pow(10, -pH))} M</dd><dt>[OH<sup>−</sup>]</dt><dd>${sci(Math.pow(10, pH - 14))} M</dd><dt>نوع المحلول</dt><dd style="direction:rtl">${pH < 6.995 ? 'حمضي' : pH > 7.005 ? 'قاعدي' : 'متعادل'}</dd>`;
+    });
+  },
+  measure(box){
+    const M = [['عصير الليمون',2.2],['الخل',2.9],['عصير الطماطم',4.2],['الحليب',6.6],['الماء النقي',7.0],['الدم',7.4],['بيكربونات الصوديوم',8.3],['ماء الصابون',10],['منظف الأمونيا',11.5],['منظف الأفران',13]];
+    box.innerHTML = `<p class="hint">اختاري مادة، وقارني لون الكاشف العام بقراءة جهاز pH.</p>
+      <div class="chips" id="mc">${M.map((m, i) => `<button class="chip" data-i="${i}">${m[0]}</button>`).join('')}</div>
+      <div class="tube-wrap"><svg width="60" height="160" viewBox="0 0 60 160" aria-label="أنبوب اختبار"><path d="M15 8 L15 135 Q15 152 30 152 Q45 152 45 135 L45 8" fill="none" stroke="var(--muted)" stroke-width="2.5"/><path id="liq" d="M17 60 L17 135 Q17 150 30 150 Q43 150 43 135 L43 60 Z" fill="var(--soft)" style="transition:fill .5s"/></svg>
+      <div class="meter"><small>جهاز قياس pH</small><span id="mr">--.-</span></div>
+      <div class="strip-big" style="flex:1;min-width:220px;grid-template-columns:repeat(15,1fr)">${IND.map(col => `<i style="background:${col};height:22px"></i>`).join('')}</div></div>
+      <p class="out" id="mo"></p>`;
+    chipGroup(box, '#mc', i => { const [n, p] = M[i]; $('#liq', box).setAttribute('fill', phColor(p)); $('#mr', box).textContent = p.toFixed(1);
+      $('#mo', box).textContent = `${n}: ${p < 7 ? 'حمضي' : p > 7 ? 'قاعدي' : 'متعادل'}. الكاشف يعطي لونًا يدل على قيمة تقريبية، بينما يعطي الجهاز قراءة دقيقة.`; });
+  },
+  neutral(box){
+    const AC = [['HCl',1,'Cl','كلوريد',1],['HNO3',1,'NO3','نترات',1],['H2SO4',2,'SO4','كبريتات',2]];
+    const BA = [['NaOH',1,'Na','الصوديوم'],['KOH',1,'K','البوتاسيوم'],['Ca(OH)2',2,'Ca','الكالسيوم']];
+    box.innerHTML = `<p class="hint">اختاري حمضًا وقاعدة لتكوين معادلة التعادل الموزونة.</p>
+      <div class="formgrid"><label>الحمض <select id="na">${AC.map((a, i) => `<option value="${i}">${SUBU(a[0])}</option>`).join('')}</select></label>
+      <label>القاعدة <select id="nb">${BA.map((b, i) => `<option value="${i}">${SUBU(b[0])}</option>`).join('')}</select></label>
+      <button class="btn small" id="ngo">كوّني المعادلة</button></div><div id="no"></div>`;
+    const gcd = (a, b) => b ? gcd(b, a % b) : a;
+    $('#ngo', box).addEventListener('click', () => {
+      const a = AC[+$('#na', box).value], b = BA[+$('#nb', box).value];
+      const h = a[1], oh = b[1], L = h * oh / gcd(h, oh);
+      const ca = L / h, cb = L / oh;
+      const anCh = a[4], catCh = b[1], g = gcd(anCh, catCh);
+      const nCat = anCh / g, nAn = catCh / g;
+      const anPart = nAn > 1 ? (a[2].length > 2 || /\d/.test(a[2]) ? `(${a[2]})${nAn}` : a[2] + nAn) : a[2];
+      const salt = b[2] + (nCat > 1 ? nCat : '') + anPart;
+      const cs = cb / nCat;
+      const co = n => n > 1 ? n : '';
+      $('#no', box).innerHTML = eq(`${co(ca)}${a[0]}(aq) + ${co(cb)}${b[0]}(aq) -> ${co(cs)}${salt}(aq) + ${co(L)}H2O(l)`) +
+        `<p class="out">الملح الناتج: ${a[3]} ${b[3]} ${c(salt)}، أيونه الموجب من القاعدة وأيونه السالب من الحمض.</p>`;
+    });
+  },
+  titration(box){
+    const Va = 25, Ma = .1, Mb = .1;
+    const pHat = V => { const na = Ma * Va, nb = Mb * V, tot = Va + V; if (Math.abs(nb - na) < 1e-9) return 7; return nb < na ? -Math.log10((na - nb) / tot) : 14 + Math.log10((nb - na) / tot); };
+    let V = 0; const pts = [[0, pHat(0)]];
+    const W = 320, H = 200, X = v => 30 + v / 50 * (W - 40), Y = p => H - 20 - p / 14 * (H - 30);
+    let theo = ''; for (let v = 0; v <= 50; v += .25) theo += `${theo ? 'L' : 'M'}${X(v).toFixed(1)} ${Y(pHat(v)).toFixed(1)} `;
+    box.innerHTML = `<p class="hint">في الدورق 25.0 mL من ${c('HCl')} تركيزه 0.100 M مع قطرات فينولفثالين، وفي السحاحة ${c('NaOH')} تركيزه 0.100 M.</p>
+      <div class="tit">
+        <div style="text-align:center"><svg width="140" height="200" viewBox="0 0 140 200" aria-label="دورق المعايرة">
+          <rect x="62" y="0" width="16" height="70" fill="var(--surface)" stroke="var(--muted)" stroke-width="2"/><rect id="bur" x="64" y="2" width="12" height="66" fill="#9CC3E6"/>
+          <path d="M66 70 L74 70 L71 84 L69 84 Z" fill="var(--muted)"/>
+          <path d="M55 100 L55 125 L20 185 Q17 194 28 194 L112 194 Q123 194 120 185 L85 125 L85 100" fill="none" stroke="var(--muted)" stroke-width="2.5"/>
+          <path id="fl" d="M37 158 L103 158 L119 186 Q121 192 112 192 L28 192 Q19 192 21 186 Z" fill="#F2F2F2" style="transition:fill .5s"/>
+        </svg>
+        <div class="meter" style="font-size:1.2rem;margin:.4rem auto 0"><small>pH</small><span id="tp">1.00</span></div>
+        <div style="font-size:.9rem;margin-top:.3rem">الحجم المضاف: <b id="tv" dir="ltr">0.00 mL</b></div></div>
+        <div><svg class="curve" viewBox="0 0 ${W} ${H}" aria-label="منحنى المعايرة">
+          <line x1="30" y1="${Y(7)}" x2="${W - 10}" y2="${Y(7)}" stroke="var(--line)" stroke-dasharray="4 4"/>
+          <line x1="${X(25)}" y1="10" x2="${X(25)}" y2="${H - 20}" stroke="var(--line)" stroke-dasharray="4 4"/>
+          <line x1="30" y1="${H - 20}" x2="${W - 10}" y2="${H - 20}" stroke="var(--muted)"/><line x1="30" y1="10" x2="30" y2="${H - 20}" stroke="var(--muted)"/>
+          <text x="${W - 10}" y="${H - 5}" font-size="10" text-anchor="end" fill="var(--muted)">V NaOH (mL)</text>
+          <text x="34" y="18" font-size="10" fill="var(--muted)">pH</text>
+          <text x="${X(25)}" y="${H - 6}" font-size="9" text-anchor="middle" fill="var(--muted)">25</text>
+          <text x="26" y="${Y(7) + 3}" font-size="9" text-anchor="end" fill="var(--muted)">7</text>
+          <path d="${theo}" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+          <polyline id="tl" fill="none" stroke="var(--l4)" stroke-width="2.5"/>
+        </svg>
+        <div class="row"><button class="btn small" data-a="5">+5 mL</button><button class="btn small" data-a="1">+1 mL</button><button class="btn small" data-a="0.1">+0.1 mL</button><button class="btn ghost small" id="trs">إعادة</button></div></div>
+      </div><p class="out" id="to"></p>`;
+    const draw = () => {
+      const p = pHat(V);
+      $('#tp', box).textContent = p.toFixed(2);
+      $('#tv', box).textContent = V.toFixed(2) + ' mL';
+      $('#bur', box).setAttribute('height', Math.max(0, 66 - V / 50 * 66)); $('#bur', box).setAttribute('y', 2 + V / 50 * 66);
+      $('#fl', box).setAttribute('fill', p < 8.2 ? '#F2F2F2' : p < 10 ? '#F5A3C7' : '#E04F95');
+      $('#tl', box).setAttribute('points', pts.map(q => `${X(q[0]).toFixed(1)},${Y(q[1]).toFixed(1)}`).join(' '));
+      $('#to', box).textContent = Math.abs(V - 25) < 1e-6 ? 'وصلتِ إلى نقطة التكافؤ: مولات H+ = مولات OH−، و pH = 7.'
+        : p >= 8.2 && V < 27 ? 'تغير لون الفينولفثالين إلى الوردي: هذه نقطة النهاية، قريبة جدًا من نقطة التكافؤ.'
+        : V > 25 ? 'تجاوزتِ نقطة التكافؤ، المحلول الآن قاعدي.' : 'لاحظي أن pH يتغير ببطء في البداية ثم يقفز قرب 25 mL.';
+    };
+    $$('[data-a]', box).forEach(b => b.addEventListener('click', () => { V = Math.min(50, Math.round((V + +b.dataset.a) * 100) / 100); pts.push([V, pHat(V)]); draw(); }));
+    $('#trs', box).addEventListener('click', () => { V = 0; pts.length = 0; pts.push([0, pHat(0)]); draw(); });
+    draw();
+  },
+  hydro(box){
+    const H = [
+      ['NaCl','HCl قوي','NaOH قوية',7,'لا يتميه أيٌّ من الأيونين','',''],
+      ['KNO3','HNO3 قوي','KOH قوية',7,'لا يتميه أيٌّ من الأيونين','',''],
+      ['NH4Cl','HCl قوي','NH3 ضعيفة',5.1,'يتميه أيون الأمونيوم','NH4^+ + H2O <=> NH3 + H3O^+',''],
+      ['NH4NO3','HNO3 قوي','NH3 ضعيفة',5.1,'يتميه أيون الأمونيوم','NH4^+ + H2O <=> NH3 + H3O^+',''],
+      ['CH3COONa','CH3COOH ضعيف','NaOH قوية',8.9,'يتميه أيون الإيثانوات','CH3COO^- + H2O <=> CH3COOH + OH^-',''],
+      ['Na2CO3','H2CO3 ضعيف','NaOH قوية',11.6,'يتميه أيون الكربونات','CO3^2- + H2O <=> HCO3^- + OH^-','']
+    ];
+    box.innerHTML = `<p class="hint">اختاري ملحًا لتعرفي مصدره ونوع محلوله.</p>
+      <div class="chips" id="hc">${H.map((h, i) => `<button class="chip" data-i="${i}">${c(h[0])}</button>`).join('')}</div>
+      <div class="phview"><div class="swatch" id="hsw" style="background:var(--surface)"></div><div id="ho"></div></div>`;
+    chipGroup(box, '#hc', i => {
+      const [s, ac, ba, p, txt, e] = H[i];
+      $('#hsw', box).style.background = phColor(p);
+      $('#ho', box).innerHTML = `<p style="margin:0">مصدره: حمض ${c(ac.split(' ')[0])} (${ac.split(' ')[1]}) + قاعدة ${c(ba.split(' ')[0])} (${ba.split(' ')[1]}).</p>
+        ${e ? eq(e) : ''}<p class="out" style="margin-top:.3rem">${txt}، فالمحلول <b>${p < 7 ? 'حمضي' : p > 7 ? 'قاعدي' : 'متعادل'}</b> (pH ≈ ${p}).</p>`;
+    });
+  }
+};
+function ranker(box, hint, items, k, plainNames){
+  let order = [];
+  const pool = shuffle(items.map((_, i) => i));
+  box.innerHTML = `<p class="hint">${hint}</p><div class="rank-pool" id="rp"></div><div class="rank-list" id="rl"><span class="gate">الأقوى أولًا</span></div>
+    <div class="row"><button class="btn small" id="rchk">تحقّقي</button><button class="btn ghost small" id="rrs">إعادة</button></div><p class="out" id="ro2"></p>`;
+  const lbl = it => `${plainNames ? it[0] : chemHTML(it[0])}<small>${k} = ${it[1]}</small>`;
+  const draw = () => {
+    $('#rp', box).innerHTML = pool.filter(i => !order.includes(i)).map(i => `<button class="rk" data-i="${i}">${lbl(items[i])}</button>`).join('');
+    $('#rl', box).innerHTML = order.length ? order.map((i, n) => `<span class="rk" data-i="${i}">${n + 1}. ${lbl(items[i])}</span>`).join('') : '<span class="gate">الأقوى أولًا</span>';
+    $$('#rp .rk', box).forEach(b => b.addEventListener('click', () => { order.push(+b.dataset.i); draw(); }));
+  };
+  $('#rchk', box).addEventListener('click', () => {
+    if (order.length < items.length) { $('#ro2', box).textContent = 'رتّبي جميع العناصر أولًا.'; return; }
+    const correct = items.map((_, i) => i).sort((a, b) => items[b][2] - items[a][2]);
+    let ok = true;
+    $$('#rl .rk', box).forEach((s, n) => { const good = order[n] === correct[n]; s.classList.add(good ? 'okk' : 'nok'); if (!good) ok = false; });
+    $('#ro2', box).textContent = ok ? `ممتاز! كلما كبرت قيمة ${k} زادت القوة.` : `بعض المواضع غير صحيحة. قارني الأسس أولًا: الأس الأقل سالبية يعني قيمة أكبر.`;
+  });
+  $('#rrs', box).addEventListener('click', () => { order = []; $('#ro2', box).textContent = ''; draw(); });
+  draw();
+}
+
+/* ---------- footer tools ---------- */
+const syncTeacher = () => { $('#teacherBtn').textContent = S.unlockAll ? 'إعادة قفل الإطارات (التسلسل المبرمج)' : 'فتح جميع الإطارات للمعاينة (للمعلمة)'; };
+$('#teacherBtn').addEventListener('click', () => { S.unlockAll = !S.unlockAll; save(); syncTeacher(); route(); });
+/* two-step confirm: browser confirm() dialogs are blocked inside the viewer */
+let resetArmed = false, resetTimer = null;
+const RESET_LBL = 'مسح تقدّمي والبدء من جديد';
+$('#resetBtn').addEventListener('click', () => {
+  const b = $('#resetBtn');
+  if (!resetArmed) {
+    resetArmed = true;
+    b.textContent = 'اضغطي مرة أخرى لتأكيد المسح';
+    b.classList.add('armed');
+    resetTimer = setTimeout(() => { resetArmed = false; b.textContent = RESET_LBL; b.classList.remove('armed'); }, 5000);
+    return;
+  }
+  clearTimeout(resetTimer); resetArmed = false; b.classList.remove('armed');
+  const nm = S.name;
+  S = { name: nm, done: {}, correct: {}, att: {}, first: {}, unlockAll: false };
+  for (const k in sessionOrder) delete sessionOrder[k];
+  for (const k in chats) delete chats[k];
+  save(); syncTeacher();
+  if (location.hash !== '#home') location.hash = '#home'; else route();
+  window.scrollTo(0, 0);
+  b.textContent = 'تم مسح التقدّم';
+  setTimeout(() => { b.textContent = RESET_LBL; }, 2500);
+});
+/* ---------- auto-format formulas written as plain text (feedback, AI answers, sims) ---------- */
+const FRX = /(?<![A-Za-z0-9])((?:[A-Z][a-z]?\d*|\((?:[A-Z][a-z]?\d*)+\)\d*)+)(\((?:aq|l|s|g)\))?(?:\^?([2-4]?[+\-−]))?(?![A-Za-z0-9])/g;
+function fmtToken(body, st, ch){
+  let h = /^[KMV][abw]$/.test(body) ? body[0] + '<sub>' + body[1] + '</sub>' : body.replace(/([A-Za-z\)])(\d+)/g, '$1<sub>$2</sub>');
+  if (ch) h += '<sup>' + ch.replace('-', '−') + '</sup>';
+  if (st) h += '<sub class="st">' + st + '</sub>';
+  return h;
+}
+function chemifyText(node){
+  const t = node.nodeValue;
+  if (!/[A-Z]/.test(t)) return;
+  let changed = false;
+  const out = esc(t).replace(FRX, (all, body, st, ch) => { const h = fmtToken(body, st, ch); if (h === body) return all; changed = true; return '<bdi class="f">' + h + '</bdi>'; });
+  if (!changed) return;
+  const tmp = document.createElement('span'); tmp.innerHTML = out;
+  node.replaceWith(...tmp.childNodes);
+}
+function chemify(root){
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement && n.parentElement.closest('svg,script,style,textarea,input,select,option,sub,sup,.meter') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+  const list = []; while (w.nextNode()) list.push(w.currentNode);
+  list.forEach(chemifyText);
+}
+let chemQ = false;
+new MutationObserver(() => { if (chemQ) return; chemQ = true; requestAnimationFrame(() => { chemQ = false; chemify($('#app')); }); }).observe($('#app'), { childList: true, subtree: true, characterData: true });
+
+syncTeacher();
+route();
+</script>
+</body>
+</html>
